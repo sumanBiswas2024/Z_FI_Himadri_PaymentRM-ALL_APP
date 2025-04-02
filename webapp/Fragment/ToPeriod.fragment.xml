@@ -1,0 +1,17 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <SelectDialog
+    id="toDialog"
+        title="Select To Period"
+        items="{periodData>/}"
+        search="_handleValueToPeriodSearch"
+        confirm="_handleValueDialogToPeriodClose"
+        cancel="_handleValueDialogToPeriodClose"
+        contentWidth="auto"
+        class="sapUiPopupWithPadding">
+        <StandardListItem
+            title="{periodData>id}"
+            description="{periodData>month}"
+            iconDensityAware="false"
+            iconInset="false" />
+    </SelectDialog>
+</core:FragmentDefinition>

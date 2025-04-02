@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog id="idProfitCenterDialog" title="Select Plant Code" draggable="true" resizable="true" afterClose=".onCloseDialog">
+		<content>
+			<Toolbar>
+				<SearchField id="idProfitCenterSearchField" placeholder="Search..." liveChange=".onSearchProfitCenter"/>
+				<ToolbarSpacer/>
+				<CheckBox id="selectAllCheckBox" text="Select All" select=".onSelectAllChange"/>
+			</Toolbar>
+			<List id="idProfitCenterList" mode="MultiSelect" items="{profitCenterData>/}">
+				<StandardListItem title="{profitCenterData>prctr}" iconDensityAware="false"
+					iconInset="false"/>
+			</List>
+		</content>
+		<buttons>
+			<Button text="OK" press="onSelectProfitCenter"/>
+			<Button text="Cancel" press=".onCloseDialog"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

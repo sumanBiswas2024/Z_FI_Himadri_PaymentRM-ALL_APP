@@ -1,0 +1,107 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "FI_PaymentRM_All_App",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "servicecatalog.connectivityComponent",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"ZN_VEND_PAY_RM_SUM_SRV": {
+				"uri": "/sap/opu/odata/sap/ZN_VEND_PAY_RM_SUM_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "FI_PaymentRM_All_App.view.View1",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.collaboration": {},
+				"sap.m": {},
+				"sap.ui.comp": {},
+				"sap.ui.core": {},
+				"sap.ui.layout": {},
+				"sap.ushell": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "FI_PaymentRM_All_App.i18n.i18n"
+				}
+			},
+			"ZN_VEND_PAY_RM_SUM_SRV_Model": {
+				"dataSource": "ZN_VEND_PAY_RM_SUM_SRV",
+				"preload": true,
+				"settings": {
+					"useBatch": false
+				}
+			},
+			"profitCenterData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"periodData": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "./model/month.json"
+			},
+			"globalData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"listData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
+			"listDataDetails": {
+				"type": "sap.ui.model.json.JSONModel"
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		}
+	}
+}
