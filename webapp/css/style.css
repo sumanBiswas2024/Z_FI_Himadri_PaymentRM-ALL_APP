@@ -1,1 +1,109 @@
 /* Enter your custom styles here */
+
+
+/* Enter your custom styles here */
+
+.sapUiCompFilterBar .sapUiCompFilterBarFilterDialog {
+    display: none !important;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.border-lineRadius {
+    overflow: hidden;
+    border: 1px solid #d1dce7;
+    border-radius: 25px;
+    box-shadow: 10px 7px 73px -35px rgba(30, 43, 179, 0.3) !important;
+}
+
+.smallIcon .sapMBtnIcon {
+    font-size: 1.1rem !important;
+    /* Adjust the font-size as per your preference */
+}
+
+.round {
+    border-radius: 50px !important;
+}
+
+.sapMInputBaseInner {
+    border-radius: 10px !important;
+}
+
+.sapMBtnInner {
+    border: none !important;
+}
+
+.boldText {
+    font-weight: bold !important;
+}
+
+#dynamicTable {
+    border-right: 1.2px solid #34618747 !important;
+}
+
+#chartPanel {
+    border-left: 1.2px solid #34618747 !important;
+}
+
+.highlightedRow {
+    background-color: #5fb2f7 !important;
+}
+
+.chartButton {
+    font-size: 1rem !important;
+}
+
+.pdfTable {
+    width: auto;
+    /* Allow table to expand horizontally */
+    border-collapse: collapse;
+    margin: 0;
+    /* Remove any margin */
+    padding: 0;
+    /* Remove any padding */
+    white-space: nowrap;
+    /* Prevent line breaks within table cells */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+}
+
+.pdfTable td {
+    border: 1px solid #c0c4cc;
+    padding: 8px;
+    text-align: left;
+}
+
+.pdfTable th {
+    background-color: #91c8f6;
+    font-weight: bold;
+}
+
+.sapMListTblRow {
+    margin: 0;
+    /* Remove any margin */
+    padding: 0;
+    /* Remove any padding */
+}
+
+.incomingCircle {
+    width: 15px;
+    height: 15px;
+    background-color: #00e600;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.outgoingCircle {
+    width: 15px;
+    height: 15px;
+    background-color: #0000b3;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.balanceText {
+    margin-left: 5px;
+}

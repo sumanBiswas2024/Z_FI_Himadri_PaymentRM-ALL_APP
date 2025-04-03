@@ -1,0 +1,97 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
+	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
+	<suite:ChartContainer id="chartContainer2" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false"
+		title="Payment RM Details {globalData>/titleProfitCenter}">
+		<suite:content>
+			<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View">
+				<suite:content>
+					<VBox>
+						<!-- Toolbar with ComboBox -->
+						<Toolbar>
+							<content>
+								<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="SpaceAround" alignItems="Center"
+									visible="true">
+									<RadioButtonGroup id="onSelectChartType" columns="5" select="onSelectChartType">
+										<RadioButton id="columnChart" text="Column Chart"/>
+										<RadioButton id="pieChart" text="Pie Chart"/>
+										<!--<RadioButton id="lineChart" text="Line Chart"/>-->
+										<!--<RadioButton id="donutChart" text="Donut Chart"/>-->
+									</RadioButtonGroup>
+								</FlexBox>
+							</content>
+						</Toolbar>
+						<viz:VizFrame id="idVizFrame2" vizType="column" height="400px" width="100%"
+							vizProperties="{ plotArea: { drawingEffect: 'glossy' }, dataLabel: { visible: true, showTotal: true }, interaction: { selectability: { mode: 'none' }}}"
+							uiConfig="{ 'applicationSet': 'fiori' }">
+							<viz:dataset>
+								<vizData:FlattenedDataset data="{listDataDetails>/}">
+									<vizData:dimensions>
+										<vizData:DimensionDefinition name="Name" value="{listDataDetails>name1}"/>
+									</vizData:dimensions>
+									<vizData:measures>
+										<vizData:MeasureDefinition name="Amount" value="{listDataDetails>hsl}"/>
+									</vizData:measures>
+								</vizData:FlattenedDataset>
+							</viz:dataset>
+							<viz:feeds>
+								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Amount"/>
+								<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Name"/>
+							</viz:feeds>
+						</viz:VizFrame>
+					</VBox>
+				</suite:content>
+			</suite:ChartContainerContent>
+			<suite:ChartContainerContent icon="sap-icon://table-chart" title="Table View">
+				<suite:content>
+					<VBox>
+						<Button text="Back" icon="sap-icon://nav-back" press=".onBackPress"/>
+						<!--<table:Table id="idTable" rows="{listDataDetails>/}" selectionMode="None" >-->
+						<!--	<table:columns>-->
+						<!--		<table:Column>-->
+						<!--			<Label text="Profit Center"/>-->
+						<!--			<table:template>-->
+						<!--				<Text text="{listDataDetails>prctr}"/>-->
+						<!--			</table:template>-->
+						<!--		</table:Column>-->
+						<!--		<table:Column>-->
+						<!--			<Label text="Vendor Name"/>-->
+						<!--			<table:template>-->
+						<!--				<Text text="{listDataDetails>name1}"/>-->
+						<!--			</table:template>-->
+						<!--		</table:Column>-->
+						<!--		<table:Column>-->
+						<!--			<Label text="Amount"/>-->
+						<!--			<table:template>-->
+						<!--				<Text text="{listDataDetails>hsl}"/>-->
+						<!--			</table:template>-->
+						<!--		</table:Column>-->
+						<!--	</table:columns>-->
+						<!--</table:Table>-->
+						<Table id="idTable2" items="{listDataDetails>/}" class="pdfTable boldText">
+							<columns>
+								<Column>
+									<Text text="Profit Center"/>
+								</Column>
+								<Column>
+									<Text text="Vendor Name"/>
+								</Column>
+								<Column>
+									<Text text="Amount"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<Text text="{listDataDetails>prctr}"/>
+										<Text text="{listDataDetails>name1}"/>
+										<Text text="{listDataDetails>hsl}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</VBox>
+				</suite:content>
+			</suite:ChartContainerContent>
+		</suite:content>
+	</suite:ChartContainer>
+</core:FragmentDefinition>

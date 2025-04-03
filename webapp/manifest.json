@@ -92,6 +92,9 @@
 			"listData": {
 				"type": "sap.ui.model.json.JSONModel"
 			},
+			"allListData": {
+				"type": "sap.ui.model.json.JSONModel"
+			},
 			"listDataDetails": {
 				"type": "sap.ui.model.json.JSONModel"
 			}

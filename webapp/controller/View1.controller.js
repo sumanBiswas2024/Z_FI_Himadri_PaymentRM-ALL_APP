@@ -10,10 +10,96 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("FI_PaymentRM_All_App.controller.View1", {
-		
+
 		onInit: function() {
 			// this.getcompanyCodeParametersData();
 			this.getProfitCenterData();
+			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
+			var that = this;
+
+			if (oGlobalModel) {
+				oGlobalModel.setProperty("/isPaymentRMVisible", true);
+				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllVisible", false);
+				oGlobalModel.setProperty("/RM", "X");
+				oGlobalModel.setProperty("/RMDetails", "");
+				oGlobalModel.setProperty("/All", "");
+			}
+
+			if (!this._oTableFragment) {
+				sap.ui.core.Fragment.load({
+					id: this.createId("tableFragment1"), // Use createId to avoid conflicts
+					name: "FI_PaymentRM_All_App.Fragment.PaymentRM",
+					controller: this
+				}).then(function(oFragment) {
+					that._oTableFragment = oFragment;
+					that.getView().addDependent(that._oTableFragment);
+				}).catch(function(error) {
+					console.error("Error loading fragment:", error);
+				});
+			}
+			if (!this._oTableFragment2) {
+				sap.ui.core.Fragment.load({
+					id: this.createId("tableFragment2"), // Use createId to avoid conflicts
+					name: "FI_PaymentRM_All_App.Fragment.PaymentRMDetails",
+					controller: this
+				}).then(function(oFragment) {
+					that._oTableFragment2 = oFragment;
+					that.getView().addDependent(that._oTableFragment2);
+				}).catch(function(error) {
+					console.error("Error loading fragment:", error);
+				});
+			}
+			var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
+
+			if (oVizFrame) {
+				oVizFrame.setVizProperties({
+					title: {
+						visible: true,
+						text: "Payment RM Summary Chart"
+					}
+				});
+			} else {
+				console.error("VizFrame not found in fragment!");
+			}
+			var oVizFrame2 = sap.ui.core.Fragment.byId(this.createId("tableFragment2"), "idVizFrame2");
+
+			if (oVizFrame2) {
+				oVizFrame2.setVizProperties({
+					title: {
+						visible: true,
+						text: "Payment RM Details Chart"
+					},
+					plotArea: {
+
+					}
+
+				});
+			} else {
+				console.error("VizFrame not found in fragment!");
+			}
+
+		},
+		onAfterRendering: function() {
+			var oFilterBar = this.byId("filterbar");
+			if (oFilterBar) {
+				var oToolbar = oFilterBar.getAggregation("_toolbar");
+				if (oToolbar) {
+					var aContent = oToolbar.getContent();
+					var oAdaptButton = null;
+
+					for (var i = 0; i < aContent.length; i++) {
+						if (aContent[i].getText && aContent[i].getText() === "Adapt Filters") {
+							oAdaptButton = aContent[i];
+							break;
+						}
+					}
+
+					if (oAdaptButton) {
+						oAdaptButton.setVisible(false); // Hide the button
+					}
+				}
+			}
 		},
 		getProfitCenterData: function() {
 			var that = this;
@@ -43,27 +129,129 @@ sap.ui.define([
 			});
 
 		},
-		onSearch: function () {
-            var that = this;
-            this.getListData();
-        },
-        getListData: function() {
+		onSearch: function() {
+			var that = this;
+			this.getListData();
+		},
+		onRadioSelect: function(oEvent) {
+			var selectedIndex = oEvent.getParameter("selectedIndex"); // Get selected radio button index
+			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
+			// oModel.setProperty("/selectedRadioIndex", selectedIndex);
+			if (selectedIndex === 0) { // Fiscal Year Wise selected
+				oGlobalModel.setProperty("/isPaymentRMVisible", true);
+				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllVisible", false);
+			} else if (selectedIndex === 1) { // Quarterly Wise selected
+				// oGlobalModel.setProperty("/isPaymentRMDetailsVisible",true);
+				oGlobalModel.setProperty("/isPaymentRMVisible", false);
+				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllVisible", true);
+				oGlobalModel.setProperty("/All", "X");
+			}
+		},
+		onNavigatePress: function(oEvent) {
+			var oButton = oEvent.getSource();
+
+			// Get the row context (data of the row where the button is pressed)
+			var oContext = oButton.getBindingContext("listData");
+
+			if (!oContext) {
+				console.error("No data found for selected row.");
+				return;
+			}
+
+			// Get the row data as a JSON object
+			var oRowData = oContext.getObject();
+
+			var sProfitCenter = oRowData.PRCTR;
+
+			var that = this;
+			var oModel = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
+			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
+			var oGlobalData = oGlobalModel.getData();
+			var sUrl = "/VEND_RM_DETSet";
+
+			var bProfitCenter = new Filter('pa_prctr', FilterOperator.EQ, sProfitCenter);
+			var cmpnyCode = new Filter('pa_bukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
+			var fiscalYear = new Filter('pa_gjahr', FilterOperator.EQ, oGlobalData.fiscalYear);
+			var fromDate = new Filter('pa_period_from', FilterOperator.EQ, oGlobalData.fromDate);
+			var toDate = new Filter('pa_period_to', FilterOperator.EQ, oGlobalData.toDate);
+
+			if (oGlobalModel) {
+				oGlobalModel.setProperty("/isPaymentRMVisible", false);
+				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", true);
+				oGlobalModel.setProperty("/titleProfitCenter", sProfitCenter);
+			}
+
+			// Define filters
+			var aFilters = [];
+
+			var oFilterGroup = new Filter({
+				filters: [bProfitCenter, cmpnyCode, fiscalYear, fromDate, toDate],
+				and: true // AND condition
+			});
+
+			oModel.read(sUrl, {
+				filters: [oFilterGroup],
+				success: function(response) {
+					var oData = response.results;
+					var oListDataDetailsModel = that.getOwnerComponent().getModel("listDataDetails");
+					oListDataDetailsModel.setData(oData);
+					var oGlobalDataModel = that.getOwnerComponent().getModel("globalData");
+					oGlobalDataModel.setProperty("/showProfitCenterTable", false);
+					oGlobalDataModel.setProperty("/showDetailsTable", true);
+					oGlobalModel.setProperty("/RM", "");
+					oGlobalModel.setProperty("/RMDetails", "X");
+				},
+				error: function() {
+					MessageToast.show("Error fetching details");
+				}
+			});
+		},
+		onBackPress: function() {
+			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
+
+			// Hide the current fragment and show the previous one
+			oGlobalModel.setProperty("/isPaymentRMVisible", true);
+			oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+			oGlobalModel.setProperty("/RM", "X");
+			oGlobalModel.setProperty("/RMDetails", "");
+		},
+		getListData: function() {
 			// Validate input fields
 			if (!this._validateInputFields()) {
 				// Validation failed, return without fetching data
 				return;
 			}
+			// var oPage = this.getView().byId("pageId");
+			// var bExpanded = oPage.getHeaderExpanded();
+			// oPage.setHeaderExpanded(!bExpanded);
 
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
 			var oGlobalData = this.getOwnerComponent().getModel("globalData").getData();
 			//var oUrl = /ZFI_FCR_SRV/ZFI_FCRSet?$filter=Rldnr eq '0L' and Rbukrs eq '1100' and Ryear eq '2023' and PrctrGr eq 'FTRS' and MinPr eq '03' and MaxPr eq '10' and DET_FLAG eq 'X';
 
-			// var oUrl = (oGlobalData.Dept !== "" && oGlobalData.listS === "") ? "/GLAC_GR_SUMSet" : "/DEPTSet";
+			// var oUrl = (oGlobalData.All==="X") ? "/VEND_ALL_SUMSet" : "/VEND_RM_SUMSet";
 			var oUrl = "/VEND_RM_SUMSet";
 
+			var aProfitCenters = oGlobalData.selectedProfitCenterArray;
+
+			var aFilters = []; // Array to store all filters
+
+			// Create an array of Profit Center filters
+			var aProfitCenterFilters = aProfitCenters.map(function(prctr) {
+				return new Filter("pa_prctr", FilterOperator.EQ, prctr);
+			});
+
+			// Create the OR condition for multiple Profit Centers
+			var profitCenFilter = new Filter({
+				filters: aProfitCenterFilters,
+				and: false // OR condition
+			});
+
 			/*var ledgrNo = new Filter('Rldnr', FilterOperator.EQ, oGlobalData.ledgrNo);*/
-			var profitCen = new Filter('pa_prctr', FilterOperator.EQ, oGlobalData.proftCen);
+			// var profitCen = new Filter('pa_prctr', FilterOperator.EQ, oGlobalData.proftCen);
 			var cmpnyCode = new Filter('pa_bukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
 			var fiscalYear = new Filter('pa_gjahr', FilterOperator.EQ, oGlobalData.fiscalYear);
 			var fromDate = new Filter('pa_period_from', FilterOperator.EQ, oGlobalData.fromDate);
@@ -73,7 +261,7 @@ sap.ui.define([
 			var aFilters = [];
 
 			var oFilterGroup = new Filter({
-				filters: [profitCen, cmpnyCode, fiscalYear, fromDate, toDate],
+				filters: [profitCenFilter, cmpnyCode, fiscalYear, fromDate, toDate],
 				and: true // AND condition
 			});
 
@@ -88,18 +276,73 @@ sap.ui.define([
 					var oData = response.results;
 					console.log(oData);
 
-					var oListDataModel = that.getOwnerComponent().getModel("listData");
-					oListDataModel.setData(oData);
+					// var oListDataModel = that.getOwnerComponent().getModel("listData");
+					// oListDataModel.setData(oData);
 
 					// check in oData value is available or not 
 					if (typeof oData !== 'undefined' && oData.length === 0) {
 
 						// hide the busy indicator
+						var oGlobalModel = that.getOwnerComponent().getModel("globalData");
+
+						if (oGlobalModel) {
+							oGlobalModel.setProperty("/isPaymentRMVisible", false);
+							oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+							oGlobalModel.setProperty("/RM", "X");
+							oGlobalModel.setProperty("/RMDetails", "");
+						}
 						sap.ui.core.BusyIndicator.hide();
 						sap.m.MessageBox.information('There are no data available!');
 						// that._columnVisible();
 					} else {
 						// hide the busy indicator
+						var oListDataModel = that.getOwnerComponent().getModel("listData");
+						oListDataModel.setData(oData);
+						sap.ui.core.BusyIndicator.hide();
+					}
+
+				},
+				error: function(error) {
+					sap.ui.core.BusyIndicator.hide();
+					console.log(error);
+					var errorObject = JSON.parse(error.responseText);
+					sap.m.MessageBox.error(errorObject.error.message.value);
+				}
+			});
+			
+			var oModel2 = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
+			var oUrl2 = "/VEND_ALL_SUMSet";
+			oModel2.read(oUrl2, {
+				// urlParameters: {
+				// 	"sap-client": "400"
+				// },
+				filters: [oFilterGroup],
+				success: function(response) {
+					var oData = response.results;
+					console.log(oData);
+
+					// var oListDataModel = that.getOwnerComponent().getModel("listData");
+					// oListDataModel.setData(oData);
+
+					// check in oData value is available or not 
+					if (typeof oData !== 'undefined' && oData.length === 0) {
+
+						// hide the busy indicator
+						var oGlobalModel = that.getOwnerComponent().getModel("globalData");
+
+						// if (oGlobalModel) {
+						// 	oGlobalModel.setProperty("/isPaymentRMVisible", false);
+						// 	oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+						// 	oGlobalModel.setProperty("/RM", "X");
+						// 	oGlobalModel.setProperty("/RMDetails", "");
+						// }
+						sap.ui.core.BusyIndicator.hide();
+						sap.m.MessageBox.information('There are no data available!');
+						// that._columnVisible();
+					} else {
+						// hide the busy indicator
+						var oAllListDataModel = that.getOwnerComponent().getModel("allListData");
+						oAllListDataModel.setData(oData);
 						sap.ui.core.BusyIndicator.hide();
 					}
 
@@ -161,111 +404,109 @@ sap.ui.define([
 				oView.byId("toDialog").open();
 			}
 		},
-        onSelectProfitCenter: function () {
-            var oList = this.byId("idProfitCenterList");
-            var aSelectedItems = oList.getSelectedItems();
-            var aSelectedValues = [];
-            var aSelectedID = [];
+		onSelectProfitCenter: function() {
+			var oList = this.byId("idProfitCenterList");
+			var aSelectedItems = oList.getSelectedItems();
+			var aSelectedValues = [];
+			var aSelectedID = [];
 
-            // Extract selected Functional Locations
-            aSelectedItems.forEach(function (oItem) {
-                aSelectedValues.push(oItem.getTitle()); // FunctionalLocation Name
-                // aSelectedID.push(oItem.getDescription()); // FunctionalLocation ID
-            });
+			// Extract selected Functional Locations
+			aSelectedItems.forEach(function(oItem) {
+				aSelectedValues.push(oItem.getTitle()); // FunctionalLocation Name
+				// aSelectedID.push(oItem.getDescription()); // FunctionalLocation ID
+			});
 
+			// Show selected values in Input field
+			var sValue = aSelectedValues.join(", ");
+			this.byId("inputProfitCenter").setValue(sValue);
 
-            // Show selected values in Input field
-            var sValue = aSelectedValues.join(", ");
-            this.byId("inputProfitCenter").setValue(sValue);
+			var sProfitCenterValues = this.byId("inputProfitCenter").getValue();
 
-            var sProfitCenterValues = this.byId("inputProfitCenter").getValue(); 
+			var aProfitCenterArray = sProfitCenterValues.split(", ");
 
-            var aProfitCenterArray = sProfitCenterValues.split(", "); 
-            
-            var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+			if (oGlobalDataModel) {
+				oGlobalDataModel.setProperty("/selectedProfitCenter", aSelectedID);
+				oGlobalDataModel.setProperty("/selectedProfitCenterArray", aProfitCenterArray);
+			}
+
+			var oSearchField = this.byId("idProfitCenterSearchField"); // Remove Search Field
+			oSearchField.setValue("");
+			var oBinding = oList.getBinding("items");
+			if (oBinding) {
+				oBinding.filter([]); // Remove filters
+			}
+
+			oList.removeSelections(true); // Removes all List selections
+
+			var oSelectAllCheckBox = this.byId("selectAllCheckBox");
+			if (oSelectAllCheckBox) {
+				oSelectAllCheckBox.setSelected(false);
+			}
+
+			// Close the dialog
+			this.byId("idProfitCenterDialog").close();
+		},
+
+		onCloseDialog: function() {
+			this.byId("idProfitCenterDialog").close();
+		},
+		onProfitCenterClear: function(oEvent) {
+			var sValue = oEvent.getParameter("value"); // Get the input value
+			var oList = this.byId("idProfitCenterList"); // Get the list
+			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
+
+			if (!sValue) { // If input is empty, clear selection
+				oList.removeSelections(true); // Deselect all items
 				if (oGlobalDataModel) {
-					 oGlobalDataModel.setProperty("/selectedProfitCenter", aSelectedID); 
-					 oGlobalDataModel.setProperty("/selectedProfitCenterArray", aProfitCenterArray);  
+					oGlobalDataModel.setProperty("/selectedProfitCenter", "");
+					oGlobalDataModel.setProperty("/selectedProfitCenterArray", "");
 				}
+			}
+		},
+		onSearchProfitCenter: function(oEvent) {
+			var sQuery = oEvent.getParameter("newValue"); // Get search input
+			var oList = this.byId("idProfitCenterList");
+			if (!oList) {
+				console.error("List not found!");
+				return;
+			}
 
-            var oSearchField = this.byId("idProfitCenterSearchField");  // Remove Search Field
-            oSearchField.setValue("");
-            var oBinding = oList.getBinding("items");
-            if (oBinding) {
-                oBinding.filter([]); // Remove filters
-            }
+			var oBinding = oList.getBinding("items"); // Get binding of the List
+			if (!oBinding) {
+				console.error("List binding not found!");
+				return;
+			}
 
-            oList.removeSelections(true); // Removes all List selections
+			var aFilters = [];
+			if (sQuery && sQuery.length > 0) {
+				var oFilter1 = new sap.ui.model.Filter("prctr", sap.ui.model.FilterOperator.Contains, sQuery);
+				// var oFilter2 = new sap.ui.model.Filter("FunctionalLocation", sap.ui.model.FilterOperator.Contains, sQuery);
+				aFilters.push(new sap.ui.model.Filter({
+					filters: [oFilter1],
+					and: false // Match either FunctionalLocationName or FunctionalLocation
+				}));
+			}
 
-            var oSelectAllCheckBox = this.byId("selectAllCheckBox");
-            if (oSelectAllCheckBox) {
-                oSelectAllCheckBox.setSelected(false);
-            }
+			// Apply the filters to the list binding
+			oBinding.filter(aFilters);
+		},
+		onSelectAllChange: function(oEvent) {
+			var bSelected = oEvent.getParameter("selected"); // CheckBox state
+			var oList = this.byId("idProfitCenterList");
+			if (!oList) {
+				console.error("List not found!");
+				return;
+			}
 
-            // Close the dialog
-            this.byId("idProfitCenterDialog").close();
-        },
+			var aItems = oList.getItems(); // Get all list items
 
-        onCloseDialog: function () {
-            this.byId("idProfitCenterDialog").close();
-        },
-        onProfitCenterClear: function (oEvent) {
-            var sValue = oEvent.getParameter("value"); // Get the input value
-            var oList = this.byId("idProfitCenterList"); // Get the list
-           var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
-
-            if (!sValue) {    // If input is empty, clear selection
-                oList.removeSelections(true); // Deselect all items
-                if(oGlobalDataModel)
-                {
-                oGlobalDataModel.setProperty("/selectedProfitCenter", "");
-                oGlobalDataModel.setProperty("/selectedProfitCenterArray", "");
-                }
-            }
-        },
-        onSearchProfitCenter: function (oEvent) {
-            var sQuery = oEvent.getParameter("newValue"); // Get search input
-            var oList = this.byId("idProfitCenterList");
-            if (!oList) {
-                console.error("List not found!");
-                return;
-            }
-
-            var oBinding = oList.getBinding("items"); // Get binding of the List
-            if (!oBinding) {
-                console.error("List binding not found!");
-                return;
-            }
-
-            var aFilters = [];
-            if (sQuery && sQuery.length > 0) {
-                var oFilter1 = new sap.ui.model.Filter("prctr", sap.ui.model.FilterOperator.Contains, sQuery);
-                // var oFilter2 = new sap.ui.model.Filter("FunctionalLocation", sap.ui.model.FilterOperator.Contains, sQuery);
-                aFilters.push(new sap.ui.model.Filter({
-                    filters: [oFilter1],
-                    and: false // Match either FunctionalLocationName or FunctionalLocation
-                }));
-            }
-
-            // Apply the filters to the list binding
-            oBinding.filter(aFilters);
-        },
-        onSelectAllChange: function (oEvent) {
-            var bSelected = oEvent.getParameter("selected"); // CheckBox state
-            var oList = this.byId("idProfitCenterList");
-            if (!oList) {
-                console.error("List not found!");
-                return;
-            }
-
-            var aItems = oList.getItems(); // Get all list items
-
-            // Select or Deselect all list items based on CheckBox state
-            aItems.forEach(function (oItem) {
-                oItem.setSelected(bSelected);
-            });;
-        },
-        _handleValueFromPeriodSearch: function(oEvent) {
+			// Select or Deselect all list items based on CheckBox state
+			aItems.forEach(function(oItem) {
+				oItem.setSelected(bSelected);
+			});;
+		},
+		_handleValueFromPeriodSearch: function(oEvent) {
 			var sValue = oEvent.getParameter("value");
 
 			// Create filters for both ID and Month fields
@@ -411,7 +652,94 @@ sap.ui.define([
 
 			return true;
 		},
+		onSelectChartType: function(oEvent) {
+			var selectedIndex = oEvent.getParameter("selectedIndex"); // Get selected index
+			var selectedKey;
 
+			switch (selectedIndex) {
+				case 0:
+					selectedKey = "column"; // Column Chart
+					break;
+				case 1:
+					selectedKey = "pie"; // Pie Chart
+					break;
+					// case 2:
+					//     selectedKey = "line"; // Line Chart
+					//     break;
+					// case 3:
+					//     selectedKey = "donut"; // Donut Chart
+					//     break;
+				default:
+					selectedKey = "column";
+			}
+			var oGlobalModelData = this.getOwnerComponent().getModel("globalData").getData();
+			// if (oGlobalModel) {
+			// 	oGlobalModel.setProperty("/isPaymentRMVisible", false);
+			// 	oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+			// 	oGlobalModel.setProperty("/RM", "X");
+			// 	oGlobalModel.setProperty("/RMDetails", "");
+			// }
+			if (oGlobalModelData.RM === "X") {
+
+				var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
+
+				if (oVizFrame) {
+					oVizFrame.setVizType(selectedKey);
+					oVizFrame.setVizProperties({
+						title: {
+							visible: true,
+							text: "Payment RM Summary Chart"
+						},
+						plotArea: {
+
+						}
+
+					});
+
+				} else {
+					console.error("VizFrame not found in fragment!");
+				}
+			} else if (oGlobalModelData.RMDetails === "X") {
+				var oVizFrame2 = sap.ui.core.Fragment.byId(this.createId("tableFragment2"), "idVizFrame2");
+
+				if (oVizFrame2) {
+					oVizFrame2.setVizType(selectedKey);
+					oVizFrame2.setVizProperties({
+						title: {
+							visible: true,
+							text: "Payment RM Details Chart"
+						},
+						plotArea: {
+
+						}
+
+					});
+				} else {
+					console.error("VizFrame not found in fragment!");
+				}
+			}
+		},
+		onRadioButtonSelectList: function(oEvent) {
+			var selectedIndex = oEvent.getParameter("selectedIndex"); // Get selected index
+			var selectedKey;
+
+			switch (selectedIndex) {
+				case 0:
+					selectedKey = "column"; // Column Chart
+					break;
+				case 1:
+					selectedKey = "pie"; // Pie Chart
+					break;
+					// case 2:
+					//     selectedKey = "line"; // Line Chart
+					//     break;
+					// case 3:
+					//     selectedKey = "donut"; // Donut Chart
+					//     break;
+				default:
+					selectedKey = "column";
+			}
+		}
 
 	});
 });

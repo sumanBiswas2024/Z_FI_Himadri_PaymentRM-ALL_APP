@@ -57,58 +57,57 @@
 												showClearIcon="true" required="true"/>
 										</fb:control>
 									</fb:FilterGroupItem>
+									<!--<fb:FilterGroupItem name="inputRadio" label="Select Option" groupName="Group1" visibleInFilterBar="true">-->
+									<!--	<fb:control>-->
+									<!--		<FlexBox direction="Row" alignItems="Center" justifyContent="Start" width="20rem">-->
+									<!--			<RadioButtonGroup id="radioGroup" selectedIndex="{/selectedRadioIndex}" select=".onRadioSelect">-->
+									<!--				<buttons>-->
+									<!--					<RadioButton text="Payment RM"/>-->
+									<!--					<RadioButton text="Payment All"/>-->
+									<!--				</buttons>-->
+									<!--			</RadioButtonGroup>-->
+									<!--		</FlexBox>-->
+									<!--	</fb:control>-->
+									<!--</fb:FilterGroupItem>-->
 								</fb:filterGroupItems>
 							</fb:FilterBar>
 						</f:content>
 					</f:DynamicPageHeader>
 				</f:header>
 				<f:content>
-					<suite:ChartContainer id="chartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" title="Payment RM">
-						<!-- Chart Content -->
-						<suite:content>
-							<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View">
-								<suite:content>
-									<viz:VizFrame id="idVizFrame" vizType="column" height="400px" width="100%">
-										<viz:dataset>
-											<vizData:FlattenedDataset>
-												<vizData:dimensions>
-													<vizData:DimensionDefinition name="Product" value="{Product}"/>
-												</vizData:dimensions>
-												<vizData:measures>
-													<vizData:MeasureDefinition name="Revenue" value="{Revenue}"/>
-												</vizData:measures>
-											</vizData:FlattenedDataset>
-										</viz:dataset>
-										<viz:feeds>
-											<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Revenue"/>
-											<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Product"/>
-										</viz:feeds>
-									</viz:VizFrame>
-								</suite:content>
-							</suite:ChartContainerContent>
-							<!-- Table Content -->
-							<suite:ChartContainerContent icon="sap-icon://table-chart" title="Table View">
-								<suite:content>
-									<table:Table id="idTable" rows="{/listData}">
-										<table:columns>
-											<table:Column>
-												<Label text="Profit Center"/>
-												<table:template>
-													<Text text="{PRCTR}"/>
-												</table:template>
-											</table:Column>
-											<table:Column>
-												<Label text="Total Amount"/>
-												<table:template>
-													<Text text="{HSL}"/>
-												</table:template>
-											</table:Column>
-										</table:columns>
-									</table:Table>
-								</suite:content>
-							</suite:ChartContainerContent>
-						</suite:content>
-					</suite:ChartContainer>
+					<!--<VBox visible="{globalData>/isPaymentRMVisible}">-->
+					<!--	<core:Fragment id="tableFragment1" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRM" type="XML"/>-->
+					<!--</VBox>-->
+					<!--<VBox visible="{globalData>/isPaymentRMDetailsVisible}">-->
+					<!--	<core:Fragment id="tableFragment2" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRMDetails" type="XML"/>-->
+					<!--</VBox>-->
+					<VBox>
+						<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="Start" alignItems="Center"
+							visible="true">
+							<FlexBox>
+								<RadioButtonGroup id="list" columns="5" select="onRadioSelect">
+									<RadioButton id="payRMList" text="Payment RM"/>
+									<RadioButton id="payAllList" text="Payment All"/>
+								</RadioButtonGroup>
+							</FlexBox>
+						</FlexBox>
+						<VBox>
+							<VBox visible="{globalData>/isPaymentRMVisible}">
+								<core:Fragment id="tableFragment1" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRM" type="XML"/>
+							</VBox>
+							<VBox visible="{globalData>/isPaymentRMDetailsVisible}">
+								<core:Fragment id="tableFragment2" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRMDetails" type="XML"/>
+							</VBox>
+						</VBox>
+						<VBox>
+							<VBox visible="{globalData>/isPaymentAllVisible}">
+								<core:Fragment id="tableFragment3" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAll" type="XML"/>
+							</VBox>
+							<!--<VBox visible="{globalData>/isPaymentAllDetailsVisible}">-->
+							<!--	<core:Fragment id="tableFragment4" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAllDetails" type="XML"/>-->
+							<!--</VBox>-->
+						</VBox>
+					</VBox>
 				</f:content>
 			</f:DynamicPage>
 		</pages>
