@@ -28,54 +28,54 @@ sap.ui.define([
 				oGlobalModel.setProperty("/AllDetails", "");
 			}
 
-			if (!this._oTableFragment) {
-				sap.ui.core.Fragment.load({
-					id: this.createId("tableFragment1"), // Use createId to avoid conflicts
-					name: "FI_PaymentRM_All_App.Fragment.PaymentRM",
-					controller: this
-				}).then(function(oFragment) {
-					that._oTableFragment = oFragment;
-					that.getView().addDependent(that._oTableFragment);
-				}).catch(function(error) {
-					console.error("Error loading fragment:", error);
-				});
-			}
-			if (!this._oTableFragment2) {
-				sap.ui.core.Fragment.load({
-					id: this.createId("tableFragment2"), // Use createId to avoid conflicts
-					name: "FI_PaymentRM_All_App.Fragment.PaymentRMDetails",
-					controller: this
-				}).then(function(oFragment) {
-					that._oTableFragment2 = oFragment;
-					that.getView().addDependent(that._oTableFragment2);
-				}).catch(function(error) {
-					console.error("Error loading fragment:", error);
-				});
-			}
-			if (!this._oTableFragment3) {
-				sap.ui.core.Fragment.load({
-					id: this.createId("tableFragment3"), // Use createId to avoid conflicts
-					name: "FI_PaymentRM_All_App.Fragment.PaymentAll",
-					controller: this
-				}).then(function(oFragment) {
-					that._oTableFragment3 = oFragment;
-					that.getView().addDependent(that._oTableFragment3);
-				}).catch(function(error) {
-					console.error("Error loading fragment:", error);
-				});
-			}
-			if (!this._oTableFragment4) {
-				sap.ui.core.Fragment.load({
-					id: this.createId("tableFragment4"), // Use createId to avoid conflicts
-					name: "FI_PaymentRM_All_App.Fragment.PaymentAllDetails",
-					controller: this
-				}).then(function(oFragment) {
-					that._oTableFragment4 = oFragment;
-					that.getView().addDependent(that._oTableFragment4);
-				}).catch(function(error) {
-					console.error("Error loading fragment:", error);
-				});
-			}
+			// if (!this._oTableFragment) {
+			// 	sap.ui.core.Fragment.load({
+			// 		id: this.createId("tableFragment1"), // Use createId to avoid conflicts
+			// 		name: "FI_PaymentRM_All_App.Fragment.PaymentRM",
+			// 		controller: this
+			// 	}).then(function(oFragment) {
+			// 		that._oTableFragment = oFragment;
+			// 		that.getView().addDependent(that._oTableFragment);
+			// 	}).catch(function(error) {
+			// 		console.error("Error loading fragment:", error);
+			// 	});
+			// }
+			// if (!this._oTableFragment2) {
+			// 	sap.ui.core.Fragment.load({
+			// 		id: this.createId("tableFragment2"), // Use createId to avoid conflicts
+			// 		name: "FI_PaymentRM_All_App.Fragment.PaymentRMDetails",
+			// 		controller: this
+			// 	}).then(function(oFragment) {
+			// 		that._oTableFragment2 = oFragment;
+			// 		that.getView().addDependent(that._oTableFragment2);
+			// 	}).catch(function(error) {
+			// 		console.error("Error loading fragment:", error);
+			// 	});
+			// }
+			// if (!this._oTableFragment3) {
+			// 	sap.ui.core.Fragment.load({
+			// 		id: this.createId("tableFragment3"), // Use createId to avoid conflicts
+			// 		name: "FI_PaymentRM_All_App.Fragment.PaymentAll",
+			// 		controller: this
+			// 	}).then(function(oFragment) {
+			// 		that._oTableFragment3 = oFragment;
+			// 		that.getView().addDependent(that._oTableFragment3);
+			// 	}).catch(function(error) {
+			// 		console.error("Error loading fragment:", error);
+			// 	});
+			// }
+			// if (!this._oTableFragment4) {
+			// 	sap.ui.core.Fragment.load({
+			// 		id: this.createId("tableFragment4"), // Use createId to avoid conflicts
+			// 		name: "FI_PaymentRM_All_App.Fragment.PaymentAllDetails",
+			// 		controller: this
+			// 	}).then(function(oFragment) {
+			// 		that._oTableFragment4 = oFragment;
+			// 		that.getView().addDependent(that._oTableFragment4);
+			// 	}).catch(function(error) {
+			// 		console.error("Error loading fragment:", error);
+			// 	});
+			// }
 			var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
 
 			if (oVizFrame) {
@@ -95,9 +95,6 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment RM Details Overview"
-					},
-					plotArea: {
-
 					}
 
 				});
@@ -111,9 +108,6 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment All Summary Overview"
-					},
-					plotArea: {
-
 					}
 
 				});
@@ -127,9 +121,6 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment All Details Overview"
-					},
-					plotArea: {
-
 					}
 
 				});
@@ -257,6 +248,12 @@ sap.ui.define([
 				filters: [bProfitCenter, cmpnyCode, fiscalYear, fromDate, toDate],
 				and: true // AND condition
 			});
+
+			// var oTable = this.byId("idTable");
+			// var oRow = oButton.getParent();
+			// var iIndex = oTable.indexOfItem(oRow);
+			// // Highlight the clicked row
+			// this._highlightRow(iIndex);
 
 			oModel.read(sUrl, {
 				filters: [oFilterGroup],
@@ -839,8 +836,8 @@ sap.ui.define([
 							visible: true,
 							text: "Payment RM Summary Overview"
 						},
-						plotArea: {
-
+						showLegendButton: {
+							visible: true
 						}
 
 					});
@@ -857,9 +854,6 @@ sap.ui.define([
 						title: {
 							visible: true,
 							text: "Payment RM Details Overview"
-						},
-						plotArea: {
-
 						}
 
 					});
@@ -909,8 +903,7 @@ sap.ui.define([
 				} else {
 					console.error("VizFrame not found in fragment!");
 				}
-			}
-			else if (oGlobalModelData.AllDetails === "X") {
+			} else if (oGlobalModelData.AllDetails === "X") {
 				var oVizFrame4 = sap.ui.core.Fragment.byId(this.createId("tableFragment4"), "idVizFrame4");
 
 				if (oVizFrame4) {
@@ -925,6 +918,32 @@ sap.ui.define([
 					console.error("VizFrame not found in fragment!");
 				}
 			}
+		},
+		_highlightRow: function(iIndex) {
+			var oSplitter = this.byId("splitter");
+			if (oSplitter.getVisible() === true) {
+				var oTable = this.byId("dynamicTable");
+			} else {
+				var oTable = this.byId("dynamicTable2");
+			}
+			oTable.getItems().forEach(function(item, index) {
+				if (index === iIndex) {
+					item.addStyleClass("highlightedRow");
+				} else {
+					item.removeStyleClass("highlightedRow");
+				}
+			});
+		},
+		_removeHighlight: function() {
+			var oSplitter = this.byId("splitter");
+			if (oSplitter.getVisible() === true) {
+				var oTable = this.byId("dynamicTable");
+			} else {
+				var oTable = this.byId("dynamicTable2");
+			}
+			oTable.getItems().forEach(function(item) {
+				item.removeStyleClass("highlightedRow");
+			});
 		}
 
 	});
