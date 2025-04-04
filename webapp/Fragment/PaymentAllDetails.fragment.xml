@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
 	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
 	<suite:ChartContainer id="chartContainer2" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false"
-		title="Payment RM Details Profit Center - {globalData>/titleProfitCenter}">
+		title="Payment All Details Profit Center - {globalData>/titleProfitCenter2}">
 		<suite:content>
 			<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View">
 				<suite:content>
@@ -20,19 +20,19 @@
 								</FlexBox>
 							</content>
 						</Toolbar>
-						<viz:VizFrame id="idVizFrame2" vizType="column" height="400px" width="100%"
+						<viz:VizFrame id="idVizFrame4" vizType="column" height="400px" width="100%"
 							vizProperties="{ plotArea: { drawingEffect: 'glossy' }, 
                                        dataLabel: { visible: true, showTotal: true }, 
                                        legend: { title:{visible:true} }, 
                                        interaction: { selectability: { mode: 'none' }}}"
 							uiConfig="{ 'applicationSet': 'fiori' }">
 							<viz:dataset>
-								<vizData:FlattenedDataset data="{listDataDetails>/}">
+								<vizData:FlattenedDataset data="{allListDataDetails>/}">
 									<vizData:dimensions>
-										<vizData:DimensionDefinition name="Name" value="{listDataDetails>name1}"/>
+										<vizData:DimensionDefinition name="Name" value="{allListDataDetails>name1}"/>
 									</vizData:dimensions>
 									<vizData:measures>
-										<vizData:MeasureDefinition name="Amount" value="{listDataDetails>hsl}"/>
+										<vizData:MeasureDefinition name="Amount" value="{allListDataDetails>hsl}"/>
 									</vizData:measures>
 								</vizData:FlattenedDataset>
 							</viz:dataset>
@@ -47,7 +47,7 @@
 			<suite:ChartContainerContent icon="sap-icon://table-chart" title="Table View">
 				<suite:content>
 					<VBox>
-						<Button text="Back" icon="sap-icon://nav-back" press=".onBackPress"/>
+						<Button text="Back" icon="sap-icon://nav-back" press=".onBackPress2"/>
 						<!--<table:Table id="idTable" rows="{listDataDetails>/}" selectionMode="None" >-->
 						<!--	<table:columns>-->
 						<!--		<table:Column>-->
@@ -70,7 +70,7 @@
 						<!--		</table:Column>-->
 						<!--	</table:columns>-->
 						<!--</table:Table>-->
-						<Table id="idTable2" items="{listDataDetails>/}" class="pdfTable boldText">
+						<Table id="idTable4" items="{allListDataDetails>/}" class="pdfTable boldText">
 							<columns>
 								<Column>
 									<Text text="Profit Center"/>
@@ -85,9 +85,9 @@
 							<items>
 								<ColumnListItem>
 									<cells>
-										<Text text="{listDataDetails>prctr}"/>
-										<Text text="{listDataDetails>name1}"/>
-										<Text text="{listDataDetails>hsl}"/>
+										<Text text="{allListDataDetails>prctr}"/>
+										<Text text="{allListDataDetails>name1}"/>
+										<Text text="{allListDataDetails>hsl}"/>
 									</cells>
 								</ColumnListItem>
 							</items>

@@ -6,7 +6,17 @@
 .sapUiCompFilterBar .sapUiCompFilterBarFilterDialog {
     display: none !important;
 }
-
+.sapUiCompFilterBar-DialogButton {
+    display: none !important;
+}
+.sapUiCompFilterBar .sapUiCompFilterBarGoBtn {
+    margin-top: 8px !important;  /* Adjust this value if needed */
+    vertical-align: middle;
+}
+.sapUiCompFilterBar .sapMBtn.sapUiCompFilterBarPaddingRightBtn{
+	padding-left: 2.5rem;
+	padding-bottom: 3.5rem;
+}
 * {
     margin: 0;
     padding: 0;

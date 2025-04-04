@@ -21,9 +21,11 @@ sap.ui.define([
 				oGlobalModel.setProperty("/isPaymentRMVisible", true);
 				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
 				oGlobalModel.setProperty("/isPaymentAllVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
 				oGlobalModel.setProperty("/RM", "X");
 				oGlobalModel.setProperty("/RMDetails", "");
 				oGlobalModel.setProperty("/All", "");
+				oGlobalModel.setProperty("/AllDetails", "");
 			}
 
 			if (!this._oTableFragment) {
@@ -50,13 +52,37 @@ sap.ui.define([
 					console.error("Error loading fragment:", error);
 				});
 			}
+			if (!this._oTableFragment3) {
+				sap.ui.core.Fragment.load({
+					id: this.createId("tableFragment3"), // Use createId to avoid conflicts
+					name: "FI_PaymentRM_All_App.Fragment.PaymentAll",
+					controller: this
+				}).then(function(oFragment) {
+					that._oTableFragment3 = oFragment;
+					that.getView().addDependent(that._oTableFragment3);
+				}).catch(function(error) {
+					console.error("Error loading fragment:", error);
+				});
+			}
+			if (!this._oTableFragment4) {
+				sap.ui.core.Fragment.load({
+					id: this.createId("tableFragment4"), // Use createId to avoid conflicts
+					name: "FI_PaymentRM_All_App.Fragment.PaymentAllDetails",
+					controller: this
+				}).then(function(oFragment) {
+					that._oTableFragment4 = oFragment;
+					that.getView().addDependent(that._oTableFragment4);
+				}).catch(function(error) {
+					console.error("Error loading fragment:", error);
+				});
+			}
 			var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
 
 			if (oVizFrame) {
 				oVizFrame.setVizProperties({
 					title: {
 						visible: true,
-						text: "Payment RM Summary Chart"
+						text: "Payment RM Summary Overview"
 					}
 				});
 			} else {
@@ -68,7 +94,39 @@ sap.ui.define([
 				oVizFrame2.setVizProperties({
 					title: {
 						visible: true,
-						text: "Payment RM Details Chart"
+						text: "Payment RM Details Overview"
+					},
+					plotArea: {
+
+					}
+
+				});
+			} else {
+				console.error("VizFrame not found in fragment!");
+			}
+			var oVizFrame3 = sap.ui.core.Fragment.byId(this.createId("tableFragment3"), "idVizFrame3");
+
+			if (oVizFrame3) {
+				oVizFrame3.setVizProperties({
+					title: {
+						visible: true,
+						text: "Payment All Summary Overview"
+					},
+					plotArea: {
+
+					}
+
+				});
+			} else {
+				console.error("VizFrame not found in fragment!");
+			}
+			var oVizFrame4 = sap.ui.core.Fragment.byId(this.createId("tableFragment4"), "idVizFrame4");
+
+			if (oVizFrame4) {
+				oVizFrame4.setVizProperties({
+					title: {
+						visible: true,
+						text: "Payment All Details Overview"
 					},
 					plotArea: {
 
@@ -141,12 +199,21 @@ sap.ui.define([
 				oGlobalModel.setProperty("/isPaymentRMVisible", true);
 				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
 				oGlobalModel.setProperty("/isPaymentAllVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
+				oGlobalModel.setProperty("/RM", "X");
+				oGlobalModel.setProperty("/RMDetails", "");
+				oGlobalModel.setProperty("/All", "");
+				oGlobalModel.setProperty("/AllDetails", "");
 			} else if (selectedIndex === 1) { // Quarterly Wise selected
 				// oGlobalModel.setProperty("/isPaymentRMDetailsVisible",true);
 				oGlobalModel.setProperty("/isPaymentRMVisible", false);
 				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
 				oGlobalModel.setProperty("/isPaymentAllVisible", true);
+				oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
+				oGlobalModel.setProperty("/RM", "");
+				oGlobalModel.setProperty("/RMDetails", "");
 				oGlobalModel.setProperty("/All", "X");
+				oGlobalModel.setProperty("/AllDetails", "");
 			}
 		},
 		onNavigatePress: function(oEvent) {
@@ -202,6 +269,71 @@ sap.ui.define([
 					oGlobalDataModel.setProperty("/showDetailsTable", true);
 					oGlobalModel.setProperty("/RM", "");
 					oGlobalModel.setProperty("/RMDetails", "X");
+					oGlobalModel.setProperty("/All", "");
+					oGlobalModel.setProperty("/AllDetails", "");
+				},
+				error: function() {
+					MessageToast.show("Error fetching details");
+				}
+			});
+		},
+		onNavigatePress2: function(oEvent) {
+			var oButton = oEvent.getSource();
+
+			// Get the row context (data of the row where the button is pressed)
+			var oContext = oButton.getBindingContext("allListData");
+
+			if (!oContext) {
+				console.error("No data found for selected row.");
+				return;
+			}
+
+			// Get the row data as a JSON object
+			var oRowData = oContext.getObject();
+
+			var sProfitCenter = oRowData.prctr;
+
+			var that = this;
+			var oModel = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
+			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
+			var oGlobalData = oGlobalModel.getData();
+			var sUrl = "/VEND_ALL_DETSet";
+
+			var bProfitCenter = new Filter('pa_prctr', FilterOperator.EQ, sProfitCenter);
+			var cmpnyCode = new Filter('pa_bukrs', FilterOperator.EQ, oGlobalData.cmpnyCode);
+			var fiscalYear = new Filter('pa_gjahr', FilterOperator.EQ, oGlobalData.fiscalYear);
+			var fromDate = new Filter('pa_period_from', FilterOperator.EQ, oGlobalData.fromDate);
+			var toDate = new Filter('pa_period_to', FilterOperator.EQ, oGlobalData.toDate);
+
+			if (oGlobalModel) {
+				oGlobalModel.setProperty("/isPaymentRMVisible", false);
+				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllVisible", false);
+				oGlobalModel.setProperty("/isPaymentAllDetailsVisible", true);
+				oGlobalModel.setProperty("/titleProfitCenter2", sProfitCenter);
+			}
+
+			// Define filters
+			var aFilters = [];
+
+			var oFilterGroup = new Filter({
+				filters: [bProfitCenter, cmpnyCode, fiscalYear, fromDate, toDate],
+				and: true // AND condition
+			});
+
+			oModel.read(sUrl, {
+				filters: [oFilterGroup],
+				success: function(response) {
+					var oData = response.results;
+					var oAllListDataDetailsModel = that.getOwnerComponent().getModel("allListDataDetails");
+					oAllListDataDetailsModel.setData(oData);
+					var oGlobalDataModel = that.getOwnerComponent().getModel("globalData");
+					oGlobalDataModel.setProperty("/showProfitCenterTable", false);
+					oGlobalDataModel.setProperty("/showDetailsTable", true);
+					oGlobalModel.setProperty("/RM", "");
+					oGlobalModel.setProperty("/RMDetails", "");
+					oGlobalModel.setProperty("/All", "");
+					oGlobalModel.setProperty("/AllDetails", "X");
 				},
 				error: function() {
 					MessageToast.show("Error fetching details");
@@ -214,8 +346,25 @@ sap.ui.define([
 			// Hide the current fragment and show the previous one
 			oGlobalModel.setProperty("/isPaymentRMVisible", true);
 			oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+			oGlobalModel.setProperty("/isPaymentAllVisible", false);
+			oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
 			oGlobalModel.setProperty("/RM", "X");
 			oGlobalModel.setProperty("/RMDetails", "");
+			oGlobalModel.setProperty("/All", "");
+			oGlobalModel.setProperty("/AllDetails", "");
+		},
+		onBackPress2: function() {
+			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
+
+			// Hide the current fragment and show the previous one
+			oGlobalModel.setProperty("/isPaymentRMVisible", false);
+			oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+			oGlobalModel.setProperty("/isPaymentAllVisible", true);
+			oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
+			oGlobalModel.setProperty("/RM", "");
+			oGlobalModel.setProperty("/RMDetails", "");
+			oGlobalModel.setProperty("/All", "X");
+			oGlobalModel.setProperty("/AllDetails", "");
 		},
 		getListData: function() {
 			// Validate input fields
@@ -309,7 +458,7 @@ sap.ui.define([
 					sap.m.MessageBox.error(errorObject.error.message.value);
 				}
 			});
-			
+
 			var oModel2 = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
 			var oUrl2 = "/VEND_ALL_SUMSet";
 			oModel2.read(oUrl2, {
@@ -688,7 +837,7 @@ sap.ui.define([
 					oVizFrame.setVizProperties({
 						title: {
 							visible: true,
-							text: "Payment RM Summary Chart"
+							text: "Payment RM Summary Overview"
 						},
 						plotArea: {
 
@@ -707,7 +856,7 @@ sap.ui.define([
 					oVizFrame2.setVizProperties({
 						title: {
 							visible: true,
-							text: "Payment RM Details Chart"
+							text: "Payment RM Details Overview"
 						},
 						plotArea: {
 
@@ -717,27 +866,64 @@ sap.ui.define([
 				} else {
 					console.error("VizFrame not found in fragment!");
 				}
-			}
-		},
-		onRadioButtonSelectList: function(oEvent) {
-			var selectedIndex = oEvent.getParameter("selectedIndex"); // Get selected index
-			var selectedKey;
+			} else if (oGlobalModelData.All === "X") {
+				var oVizFrame3 = sap.ui.core.Fragment.byId(this.createId("tableFragment3"), "idVizFrame3");
 
-			switch (selectedIndex) {
-				case 0:
-					selectedKey = "column"; // Column Chart
-					break;
-				case 1:
-					selectedKey = "pie"; // Pie Chart
-					break;
-					// case 2:
-					//     selectedKey = "line"; // Line Chart
-					//     break;
-					// case 3:
-					//     selectedKey = "donut"; // Donut Chart
-					//     break;
-				default:
-					selectedKey = "column";
+				if (oVizFrame3) {
+					oVizFrame3.setVizType(selectedKey);
+					oVizFrame3.setVizProperties({
+						title: {
+							visible: true,
+							text: "Payment All Summary Overview"
+						}
+						// legend: {
+						// 	title: {
+						// 		visible: true
+						// 	}
+						// },
+						// categoryAxis: {
+						// 	title: {
+						// 		visible: true
+						// 	},
+						// 	label: {
+						// 		angle: 0, // Ensures text is not angled
+						// 		visible: true,
+						// 		style: {
+						// 			fontSize: "9px"
+						// 		}
+						// 	}
+						// },
+						// valueAxis: {
+						// 	title: {
+						// 		visible: true
+						// 	}
+						// },
+						// plotArea: {
+						// 	dataLabel: {
+						// 		visible: true,
+						// 		showTotal: true,
+						// 	}
+						// }
+
+					});
+				} else {
+					console.error("VizFrame not found in fragment!");
+				}
+			}
+			else if (oGlobalModelData.AllDetails === "X") {
+				var oVizFrame4 = sap.ui.core.Fragment.byId(this.createId("tableFragment4"), "idVizFrame4");
+
+				if (oVizFrame4) {
+					oVizFrame4.setVizType(selectedKey);
+					oVizFrame4.setVizProperties({
+						title: {
+							visible: true,
+							text: "Payment All Details Overview"
+						}
+					});
+				} else {
+					console.error("VizFrame not found in fragment!");
+				}
 			}
 		}
 

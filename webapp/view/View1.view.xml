@@ -9,7 +9,7 @@
 			<!--</Page>-->
 			<f:DynamicPage id="pageId" headerExpanded="{/headerExpanded}">
 				<f:title>
-					<f:DynamicPageTitle>
+					<f:DynamicPageTitle visible="true">
 						<f:heading>
 							<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>
 						</f:heading>
@@ -24,7 +24,7 @@
 				<f:header>
 					<f:DynamicPageHeader>
 						<f:content>
-							<fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange"
+							<fb:FilterBar id="filterbar" showFilterConfiguration="false"  persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange"
 								afterVariantLoad=".onAfterVariantLoad">
 								<fb:filterGroupItems>
 									<fb:FilterGroupItem name="pa_bukrs" label="Company Code" groupName="Group1" visibleInFilterBar="true">
@@ -103,9 +103,9 @@
 							<VBox visible="{globalData>/isPaymentAllVisible}">
 								<core:Fragment id="tableFragment3" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAll" type="XML"/>
 							</VBox>
-							<!--<VBox visible="{globalData>/isPaymentAllDetailsVisible}">-->
-							<!--	<core:Fragment id="tableFragment4" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAllDetails" type="XML"/>-->
-							<!--</VBox>-->
+							<VBox visible="{globalData>/isPaymentAllDetailsVisible}">
+								<core:Fragment id="tableFragment4" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAllDetails" type="XML"/>
+							</VBox>
 						</VBox>
 					</VBox>
 				</f:content>

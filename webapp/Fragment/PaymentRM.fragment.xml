@@ -11,7 +11,7 @@
 						<!--<Title text="Payment RM Analysis Chart" level="H2"/>-->
 						<Toolbar>
 							<content>
-								<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="SpaceAround" alignItems="Center"
+								<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="End" alignItems="Center"
 									visible="true">
 									<RadioButtonGroup id="onSelectChartType" columns="5" select="onSelectChartType">
 										<RadioButton id="columnChart" text="Column Chart"/>
@@ -23,7 +23,10 @@
 							</content>
 						</Toolbar>
 						<viz:VizFrame id="idVizFrame" vizType="column" height="400px" width="100%"
-							vizProperties="{ plotArea: { drawingEffect: 'glossy' }, dataLabel: { visible: true, showTotal: true }, interaction: { selectability: { mode: 'none' }}}"
+							vizProperties="{ plotArea: { drawingEffect: 'glossy' }, 
+                                       dataLabel: { visible: true, showTotal: true }, 
+                                       legend: { title:{visible:true} }, 
+                                       interaction: { selectability: { mode: 'none' }}}"
 							uiConfig="{ 'applicationSet': 'fiori' }">
 							<viz:dataset>
 								<vizData:FlattenedDataset data="{listData>/}">

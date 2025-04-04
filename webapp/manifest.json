@@ -97,6 +97,9 @@
 			},
 			"listDataDetails": {
 				"type": "sap.ui.model.json.JSONModel"
+			},
+			"allListDataDetails": {
+				"type": "sap.ui.model.json.JSONModel"
 			}
 		},
 		"resources": {
