@@ -809,12 +809,12 @@ sap.ui.define([
 				case 1:
 					selectedKey = "pie"; // Pie Chart
 					break;
-					// case 2:
-					//     selectedKey = "line"; // Line Chart
-					//     break;
-					// case 3:
-					//     selectedKey = "donut"; // Donut Chart
-					//     break;
+				case 2:
+					selectedKey = "line"; // Line Chart
+					break;
+				case 3:
+					selectedKey = "donut"; // Donut Chart
+					break;
 				default:
 					selectedKey = "column";
 			}
@@ -835,10 +835,33 @@ sap.ui.define([
 						title: {
 							visible: true,
 							text: "Payment RM Summary Overview"
-						},
-						showLegendButton: {
-							visible: true
 						}
+
+						// legend: {
+						// 	visible: true, // Ensure legend is shown
+						// 	position: "right", // Move legend to right side
+						// 	title: {
+						// 		visible: true
+						// 	}
+						// },
+						// plotArea: {
+						// 	dataLabel: {
+						// 		// distance: 0.3,
+						// 		// hideWhenOverlap:true,
+						// 		visible: false,
+						// 		showTotal: true,
+						// 		// type: "valuePercentage", // Display values as percentage
+						// 		automaticInOutside: true, // Allows automatic positioning
+						// 		labelPosition: "outside", // Move labels outside the pie chart
+						// 		outsideLabelAlignment: "smart",
+						// 		style: {
+						// 			fontSize: "10px", // Reduce font size to prevent overlap
+						// 			color: "#000"
+						// 		}
+						// 		// type: "callout", // Moves labels outside with connecting lines
+						// 		// formatString: ["#,##0.00"],
+						// 	}
+						// }
 
 					});
 

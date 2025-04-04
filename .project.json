@@ -44,7 +44,8 @@
     "sourceFolder": "webapp",
     "targetFolder": "dist",
     "excludedFolders": [],
-    "excludedFiles": []
+    "excludedFiles": [],
+    "lastBuildDateTime": "Fri, 04 Apr 2025 11:23:04 GMT"
   },
   "mockpreview": {
     "mockUri": "/sap/opu/odata/sap/ZN_VEND_PAY_RM_SUM_SRV",
@@ -52,5 +53,9 @@
     "loadJSONFiles": false,
     "loadCustomRequests": false,
     "mockRequestsFilePath": ""
+  },
+  "deploy": {
+    "destination": "HMD",
+    "name": "ZHMD_FI_RM_ALL"
   }
 }
