@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
 	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
-	<suite:ChartContainer id="chartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false"
+	<suite:ChartContainer id="chartContainer3" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegendButton="true" showZoom="true"
 		title="Payment All Summary">
 		<!-- Chart Content -->
 		<suite:content>

@@ -52,13 +52,34 @@
 		"dependencies": {
 			"minUI5Version": "1.30.0",
 			"libs": {
+				"sap.chart": {
+					"minVersion": ""
+				},
 				"sap.collaboration": {},
+				"sap.fe.common": {
+					"minVersion": ""
+				},
+				"sap.fiori": {
+					"minVersion": ""
+				},
 				"sap.m": {},
+				"sap.ui.commons": {
+					"minVersion": ""
+				},
 				"sap.ui.comp": {},
 				"sap.ui.core": {},
 				"sap.ui.layout": {},
+				"sap.ui.suite": {
+					"minVersion": ""
+				},
+				"sap.ui.table": {
+					"minVersion": ""
+				},
 				"sap.ushell": {},
-				"sap.uxap": {}
+				"sap.uxap": {},
+				"sap.viz": {
+					"minVersion": ""
+				}
 			}
 		},
 		"contentDensities": {
