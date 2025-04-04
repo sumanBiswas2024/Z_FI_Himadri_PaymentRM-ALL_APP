@@ -809,12 +809,12 @@ sap.ui.define([
 				case 1:
 					selectedKey = "pie"; // Pie Chart
 					break;
-					// case 2:
-					//     selectedKey = "line"; // Line Chart
-					//     break;
-					// case 3:
-					//     selectedKey = "donut"; // Donut Chart
-					//     break;
+				case 2:
+					selectedKey = "line"; // Line Chart
+					break;
+				case 3:
+					selectedKey = "donut"; // Donut Chart
+					break;
 				default:
 					selectedKey = "column";
 			}
@@ -836,7 +836,7 @@ sap.ui.define([
 							visible: true,
 							text: "Payment RM Summary Overview"
 						}
-						
+
 						// legend: {
 						// 	visible: true, // Ensure legend is shown
 						// 	position: "right", // Move legend to right side
