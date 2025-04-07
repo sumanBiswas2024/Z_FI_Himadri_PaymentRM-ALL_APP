@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
 	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
 	<suite:ChartContainer id="chartContainer4" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false"
-		showLegendButton="true" showZoom="true" title="Payment All Details Profit Center - {globalData>/titleProfitCenter2}" level="H1">
+		showLegendButton="true" showZoom="true" title="Payment To Supplier Details Of Profit Center - {globalData>/titleProfitCenter2} (In Lakhs)" level="H1">
 		<suite:content>
 			<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View">
 				<suite:content>
@@ -28,12 +28,12 @@
 										<vizData:DimensionDefinition name="Name" value="{allListDataDetails>name1}"/>
 									</vizData:dimensions>
 									<vizData:measures>
-										<vizData:MeasureDefinition name="Amount" value="{allListDataDetails>hsl}"/>
+										<vizData:MeasureDefinition name="Amount(In Lakhs)" value="{allListDataDetails>hsl_Lakhs}"/>
 									</vizData:measures>
 								</vizData:FlattenedDataset>
 							</viz:dataset>
 							<viz:feeds>
-								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Amount"/>
+								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Amount(In Lakhs)"/>
 								<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Name"/>
 								<vizFeeds:FeedItem uid="color" type="Dimension" values="Name"/>
 							</viz:feeds>
@@ -88,7 +88,7 @@
 										<!--<Text text="{allListDataDetails>prctr}"/>-->
 										<!--<Text text="{allListDataDetails>ltext}"/>-->
 										<Text text="{allListDataDetails>name1}"/>
-										<Text text="{allListDataDetails>hsl}"/>
+										<Text text="{allListDataDetails>hsl_Lakhs}"/>
 									</cells>
 								</ColumnListItem>
 							</items>

@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
 	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
 	<suite:ChartContainer id="chartContainer" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegendButton="true" showZoom="true"
-		title="Payment RM Summary" level="H1" class="titleCSS">
+		title="Raw Material Payment Overview(In Lakhs)" level="H1" class="titleCSS">
 		<!-- Chart Content -->
 		<suite:content>
 			<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View" >
@@ -34,12 +34,12 @@
 										<vizData:DimensionDefinition name="Profit Center Name" value="{listData>LTEXT}"/>
 									</vizData:dimensions>
 									<vizData:measures>
-										<vizData:MeasureDefinition name="Total Amount" value="{listData>HSL}"/>
+										<vizData:MeasureDefinition name="Total Amount(In Lakhs)" value="{listData>HSL_Lakhs}"/>
 									</vizData:measures>
 								</vizData:FlattenedDataset>
 							</viz:dataset>
 							<viz:feeds>
-								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Total Amount"/>
+								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Total Amount(In Lakhs)"/>
 								<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Profit Center Name"/>
 								<vizFeeds:FeedItem uid="color" type="Dimension" values="Profit Center Name"/>
 							</viz:feeds>
@@ -74,9 +74,9 @@
 					<!--</table:Table>-->
 					<Table id="idTable" mode="None" items="{listData>/}" class="pdfTable boldText">
 						<columns>
-							<Column>
-								<Text text="Profit Center Id"/>
-							</Column>
+							<!--<Column>-->
+							<!--	<Text text="Profit Center Id"/>-->
+							<!--</Column>-->
 							<Column>
 								<Text text="Profit Center Name"/>
 							</Column>
@@ -90,9 +90,9 @@
 						<items>
 							<ColumnListItem type="Navigation" press=".onNavigatePress">
 								<cells>
-									<Text text="{listData>PRCTR}"/>
+									<!--<Text text="{listData>PRCTR}"/>-->
 									<Text text="{listData>LTEXT}"/>
-									<Text text="{listData>HSL}"/>
+									<Text text="{listData>HSL_Lakhs}"/>
 									<!--<Button text="Navigate" press=".onNavigatePress"/>-->
 								</cells>
 							</ColumnListItem>

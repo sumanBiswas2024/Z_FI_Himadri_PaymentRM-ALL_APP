@@ -11,16 +11,16 @@ sap.ui.define([
 
 	return Controller.extend("FI_PaymentRM_All_App.controller.View1", {
 
-			onInit: function() {
-				// this.getcompanyCodeParametersData();
-				var sLogoPath = jQuery.sap.getModulePath("FI_PaymentRM_All_App", "/image/Himadari1_LOGO_PNG.png");
-				// var oLogoModel = this.getOwnerComponent().getModel("logoModel");
-				var oLogoModel = new sap.ui.model.json.JSONModel({
-					logoSrc: sLogoPath
-				});
-				this.getView().setModel(oLogoModel, "logoModel");
+		onInit: function() {
+			// this.getcompanyCodeParametersData();
+			var sLogoPath = jQuery.sap.getModulePath("FI_PaymentRM_All_App", "/image/Himadari1_LOGO_PNG.png");
+			// var oLogoModel = this.getOwnerComponent().getModel("logoModel");
+			var oLogoModel = new sap.ui.model.json.JSONModel({
+				logoSrc: sLogoPath
+			});
+			this.getView().setModel(oLogoModel, "logoModel");
 
-				this.getProfitCenterData();
+			this.getProfitCenterData();
 			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
 			var that = this;
 
@@ -84,22 +84,28 @@ sap.ui.define([
 			// 	});
 			// }
 			var aColorPalette = [
-				"#FF5733", // red-orange
-				"#1F77B4", // blue
-				"#9B59B6", // purple
-				"#E74C3C", // bright red
-				"#A569BD", // violet
-				"#F39C12", // orange
-				"#7D3C98", // dark purple
+				"#FF6F61", // coral red
+				"#AF7AC5", // soft purple
+				"#F7DC6F", // bright yellow
 				"#5DADE2", // sky blue
-				"#CA6F1E" // dark orange
+				"#85929E", // soft grey-blue
+				"#EC7063", // light red
+				"#884EA0", // royal purple
+				"#F39C12", // golden orange
+				"#2980B9", // rich blue
+				"#E67E22", // orange
+				"#D35400", // pumpkin orange
+				"#C0392B", // crimson
+				"#A569BD", // light violet
+				"#FF5733", // strong red-orange
+				"#B03A2E" // deep brick red
 			];
 			var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
 
 			if (oVizFrame) {
 				oVizFrame.setVizProperties({
 					title: {
-						visible: true,
+						visible: false,
 						text: "Payment RM Summary Overview"
 					},
 					plotArea: {
@@ -122,7 +128,7 @@ sap.ui.define([
 			if (oVizFrame2) {
 				oVizFrame2.setVizProperties({
 					title: {
-						visible: true,
+						visible: false,
 						text: "Payment RM Details Overview"
 					},
 					plotArea: {
@@ -146,7 +152,7 @@ sap.ui.define([
 			if (oVizFrame3) {
 				oVizFrame3.setVizProperties({
 					title: {
-						visible: true,
+						visible: false,
 						text: "Payment All Summary Overview"
 					},
 					plotArea: {
@@ -170,7 +176,7 @@ sap.ui.define([
 			if (oVizFrame4) {
 				oVizFrame4.setVizProperties({
 					title: {
-						visible: true,
+						visible: false,
 						text: "Payment All Details Overview"
 					},
 					plotArea: {
@@ -327,6 +333,14 @@ sap.ui.define([
 				filters: [oFilterGroup],
 				success: function(response) {
 					var oData = response.results;
+					oData.forEach(function(entry) {
+						if (entry.hsl) {
+							var fHSL = parseFloat(entry.hsl);
+							entry.hsl_Lakhs = isNaN(fHSL) ? "0" : (fHSL / 100000).toFixed(2);
+						} else {
+							entry.hsl_Lakhs = "0";
+						}
+					});
 					var oListDataDetailsModel = that.getOwnerComponent().getModel("listDataDetails");
 					oListDataDetailsModel.setData(oData);
 					var oGlobalDataModel = that.getOwnerComponent().getModel("globalData");
@@ -391,6 +405,14 @@ sap.ui.define([
 				filters: [oFilterGroup],
 				success: function(response) {
 					var oData = response.results;
+					oData.forEach(function(entry) {
+						if (entry.hsl) {
+							var fHSL = parseFloat(entry.hsl);
+							entry.hsl_Lakhs = isNaN(fHSL) ? "0" : (fHSL / 100000).toFixed(2);
+						} else {
+							entry.hsl_Lakhs = "0";
+						}
+					});
 					var oAllListDataDetailsModel = that.getOwnerComponent().getModel("allListDataDetails");
 					oAllListDataDetailsModel.setData(oData);
 					var oGlobalDataModel = that.getOwnerComponent().getModel("globalData");
@@ -515,6 +537,14 @@ sap.ui.define([
 						// that._columnVisible();
 					} else {
 						// hide the busy indicator
+						oData.forEach(function(entry) {
+							if (entry.HSL) {
+								var fHSL = parseFloat(entry.HSL);
+								entry.HSL_Lakhs = isNaN(fHSL) ? "0" : (fHSL / 100000).toFixed(2);
+							} else {
+								entry.HSL_Lakhs = "0";
+							}
+						});
 						var oListDataModel = that.getOwnerComponent().getModel("listData");
 						oListDataModel.setData(oData);
 						sap.ui.core.BusyIndicator.hide();
@@ -564,6 +594,14 @@ sap.ui.define([
 						// that._columnVisible();
 					} else {
 						// hide the busy indicator
+						oData.forEach(function(entry) {
+							if (entry.hsl) {
+								var fHSL = parseFloat(entry.hsl);
+								entry.hsl_Lakhs = isNaN(fHSL) ? "0" : (fHSL / 100000).toFixed(2);
+							} else {
+								entry.hsl_Lakhs = "0";
+							}
+						});
 						var oAllListDataModel = that.getOwnerComponent().getModel("allListData");
 						oAllListDataModel.setData(oData);
 						sap.ui.core.BusyIndicator.hide();
@@ -913,7 +951,7 @@ sap.ui.define([
 					oVizFrame.setVizType(selectedKey);
 					oVizFrame.setVizProperties({
 						title: {
-							visible: true,
+							visible: false,
 							text: "Payment RM Summary Overview"
 						}
 
@@ -955,7 +993,7 @@ sap.ui.define([
 					oVizFrame2.setVizType(selectedKey);
 					oVizFrame2.setVizProperties({
 						title: {
-							visible: true
+							visible: false
 								// text: oGlobalModelData.titleProfitCenter
 						}
 
@@ -970,7 +1008,7 @@ sap.ui.define([
 					oVizFrame3.setVizType(selectedKey);
 					oVizFrame3.setVizProperties({
 						title: {
-							visible: true,
+							visible: false,
 							text: "Payment All Summary Overview"
 						}
 						// legend: {
@@ -1013,7 +1051,7 @@ sap.ui.define([
 					oVizFrame4.setVizType(selectedKey);
 					oVizFrame4.setVizProperties({
 						title: {
-							visible: true
+							visible: false
 								// text: oGlobalModelData.titleProfitCenter2
 						}
 					});

@@ -14,18 +14,24 @@
 				<f:title>
 					<f:DynamicPageTitle visible="true">
 						<f:heading>
-							<HBox alignItems="Center">
-								<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo" class="sapUiTinyMarginEnd"/>
-								<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>
-							</HBox>
+							<!--<HBox justifyContent="End" alignItems="Center" width="100%">-->
+							<!--	<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo" class="sapUiTinyMarginEnd"/>-->
+							<!--<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>-->
+							<!--</HBox>-->
+							<FlexBox direction="Row" justifyContent="End" alignItems="Center" width="100%">
+								<!-- Optional: Title or leave empty -->
+								<Text text=""/>
+								<!-- Logo aligned right -->
+								<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo"/>
+							</FlexBox>
 							<!--<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>-->
 						</f:heading>
-						<f:expandedContent>
-							<Label id="expandedLabel" text="No filters active"/>
-						</f:expandedContent>
-						<f:snappedContent>
-							<Label id="snappedLabel" text="No filters active"/>
-						</f:snappedContent>
+						<!--<f:expandedContent>-->
+						<!--	<Label id="expandedLabel" text="No filters active"/>-->
+						<!--</f:expandedContent>-->
+						<!--<f:snappedContent>-->
+						<!--	<Label id="snappedLabel" text="No filters active"/>-->
+						<!--</f:snappedContent>-->
 					</f:DynamicPageTitle>
 				</f:title>
 				<f:header>
@@ -92,7 +98,7 @@
 						<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="Start" alignItems="Center" visible="true">
 							<FlexBox>
 								<RadioButtonGroup id="list" columns="5" select="onRadioSelect">
-									<RadioButton id="payRMList" text="Payment RM"/>
+									<RadioButton id="payRMList" text="RM Payment"/>
 									<RadioButton id="payAllList" text="Payment All"/>
 								</RadioButtonGroup>
 							</FlexBox>
