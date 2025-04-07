@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
 	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
 	<suite:ChartContainer id="chartContainer3" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegendButton="true" showZoom="true"
-		title="Payment All Summary">
+		title="Payment All Summary" level="H1">
 		<!-- Chart Content -->
 		<suite:content>
 			<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View">
@@ -31,7 +31,7 @@
 							<viz:dataset>
 								<vizData:FlattenedDataset data="{allListData>/}">
 									<vizData:dimensions>
-										<vizData:DimensionDefinition name="Profit Center" value="{allListData>prctr}"/>
+										<vizData:DimensionDefinition name="Profit Center Name" value="{allListData>ltext}"/>
 									</vizData:dimensions>
 									<vizData:measures>
 										<vizData:MeasureDefinition name="Total Amount" value="{allListData>hsl}"/>
@@ -40,7 +40,8 @@
 							</viz:dataset>
 							<viz:feeds>
 								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Total Amount"/>
-								<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Profit Center"/>
+								<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Profit Center Name"/>
+								<vizFeeds:FeedItem uid="color" type="Dimension" values="Profit Center Name"/>
 							</viz:feeds>
 						</viz:VizFrame>
 					</VBox>
@@ -74,8 +75,11 @@
 					<Table id="idTable3" mode="None" items="{allListData>/}" class="pdfTable boldText">
 						<columns>
 							<Column>
-								<Text text="Profit Center"/>
-							</Column>
+									<Text text="Profit Center Id"/>
+								</Column>
+								<Column>
+									<Text text="Profit Center Name"/>
+								</Column>
 							<Column>
 								<Text text="Total Amount"/>
 							</Column>
@@ -87,6 +91,7 @@
 							<ColumnListItem type="Navigation" press=".onNavigatePress2">
 								<cells>
 									<Text text="{allListData>prctr}"/>
+									<Text text="{allListData>ltext}"/>
 									<Text text="{allListData>hsl}"/>
 									<!--<Button text="Navigate" press=".onNavigatePress"/>-->
 								</cells>

@@ -90,9 +90,12 @@
     padding: 8px;
     text-align: left;
 }
+.sapMTitle.titleCSS{
+	font-weight: bolder;
+}
 
 .pdfTable th {
-    background-color: #91c8f6;
+    background-color: #fc4c4c;
     font-weight: bold;
 }
 

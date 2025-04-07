@@ -8,110 +8,114 @@
 			<!--	<content></content>-->
 			<!--</Page>-->
 			<!--<VBox>-->
-				<!-- Title Above Dynamic Page -->
+			<!-- Title Above Dynamic Page -->
 			<!--	<Title text="Himadri FI Payment RM and All Summary Application" level="H1" class="customTitle"/>-->
-				<f:DynamicPage id="pageId" headerExpanded="{/headerExpanded}">
-					<f:title>
-						<f:DynamicPageTitle visible="true">
-							<f:heading>
+			<f:DynamicPage id="pageId" headerExpanded="{/headerExpanded}">
+				<f:title>
+					<f:DynamicPageTitle visible="true">
+						<f:heading>
+							<HBox alignItems="Center">
+								<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo" class="sapUiTinyMarginEnd"/>
 								<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>
-							</f:heading>
-							<f:expandedContent>
-								<Label id="expandedLabel" text="No filters active"/>
-							</f:expandedContent>
-							<f:snappedContent>
-								<Label id="snappedLabel" text="No filters active"/>
-							</f:snappedContent>
-						</f:DynamicPageTitle>
-					</f:title>
-					<f:header>
-						<f:DynamicPageHeader>
-							<f:content>
-								<fb:FilterBar id="filterbar" showFilterConfiguration="false" persistencyKey="myPersKey" useToolbar="false" search=".onSearch"
-									filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
-									<fb:filterGroupItems>
-										<fb:FilterGroupItem name="pa_bukrs" label="Company Code" groupName="Group1" visibleInFilterBar="true">
-											<fb:control>
-												<Input id="inputCompanyCode" editable="false" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="false"
-													value="1000" required="true" liveChange="onLiveChange"/>
-											</fb:control>
-										</fb:FilterGroupItem>
-										<fb:FilterGroupItem name="pa_prctr" label="Profit Center" groupName="Group1" visibleInFilterBar="true">
-											<fb:control>
-												<Input id="inputProfitCenter" showValueHelp="true" valueHelpRequest=".onProfitCenterDialog" placeholder="Select Profit Center"
-													showClearIcon="true" required="true" liveChange=".onProfitCenterClear"/>
-											</fb:control>
-										</fb:FilterGroupItem>
-										<fb:FilterGroupItem name="pa_gjahr" label="Fiscal Year" groupName="Group1" visibleInFilterBar="true">
-											<fb:control>
-												<DatePicker id="yearPicker" displayFormat="yyyy" valueFormat="yyyy" change="onYearChange" placeholder="Select Year"
-													class="round sapUiSmallMarginBottom"/>
-											</fb:control>
-										</fb:FilterGroupItem>
-										<fb:FilterGroupItem name="pa_period_from" label="From Period" groupName="Group1" visibleInFilterBar="true">
-											<fb:control>
-												<Input id="inputFromPeriod" showValueHelp="true" valueHelpRequest="handleValueDialogFromPeriod" placeholder="Select From Period"
-													showClearIcon="true" required="true"/>
-											</fb:control>
-										</fb:FilterGroupItem>
-										<fb:FilterGroupItem name="inputToPeriod" label="To Period" groupName="Group1" visibleInFilterBar="true">
-											<fb:control>
-												<Input id="inputToPeriod" showValueHelp="true" valueHelpRequest="handleValueDialogToPeriod" placeholder="Select To Period"
-													showClearIcon="true" required="true"/>
-											</fb:control>
-										</fb:FilterGroupItem>
-										<!--<fb:FilterGroupItem name="inputRadio" label="Select Option" groupName="Group1" visibleInFilterBar="true">-->
-										<!--	<fb:control>-->
-										<!--		<FlexBox direction="Row" alignItems="Center" justifyContent="Start" width="20rem">-->
-										<!--			<RadioButtonGroup id="radioGroup" selectedIndex="{/selectedRadioIndex}" select=".onRadioSelect">-->
-										<!--				<buttons>-->
-										<!--					<RadioButton text="Payment RM"/>-->
-										<!--					<RadioButton text="Payment All"/>-->
-										<!--				</buttons>-->
-										<!--			</RadioButtonGroup>-->
-										<!--		</FlexBox>-->
-										<!--	</fb:control>-->
-										<!--</fb:FilterGroupItem>-->
-									</fb:filterGroupItems>
-								</fb:FilterBar>
-							</f:content>
-						</f:DynamicPageHeader>
-					</f:header>
-					<f:content>
-						<!--<VBox visible="{globalData>/isPaymentRMVisible}">-->
-						<!--	<core:Fragment id="tableFragment1" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRM" type="XML"/>-->
-						<!--</VBox>-->
-						<!--<VBox visible="{globalData>/isPaymentRMDetailsVisible}">-->
-						<!--	<core:Fragment id="tableFragment2" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRMDetails" type="XML"/>-->
-						<!--</VBox>-->
-						<VBox>
-							<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="Start" alignItems="Center" visible="true">
-								<FlexBox>
-									<RadioButtonGroup id="list" columns="5" select="onRadioSelect">
-										<RadioButton id="payRMList" text="Payment RM"/>
-										<RadioButton id="payAllList" text="Payment All"/>
-									</RadioButtonGroup>
-								</FlexBox>
+							</HBox>
+							<!--<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>-->
+						</f:heading>
+						<f:expandedContent>
+							<Label id="expandedLabel" text="No filters active"/>
+						</f:expandedContent>
+						<f:snappedContent>
+							<Label id="snappedLabel" text="No filters active"/>
+						</f:snappedContent>
+					</f:DynamicPageTitle>
+				</f:title>
+				<f:header>
+					<f:DynamicPageHeader>
+						<f:content>
+							<fb:FilterBar id="filterbar" showFilterConfiguration="false" persistencyKey="myPersKey" useToolbar="false" search=".onSearch"
+								filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+								<fb:filterGroupItems>
+									<fb:FilterGroupItem name="pa_bukrs" label="Company Code" groupName="Group1" visibleInFilterBar="true">
+										<fb:control>
+											<Input id="inputCompanyCode" editable="false" class="sapUiSmallMarginBottom" type="Text" placeholder="Enter Value" showValueHelp="false"
+												value="1000" required="true" liveChange="onLiveChange"/>
+										</fb:control>
+									</fb:FilterGroupItem>
+									<fb:FilterGroupItem name="pa_prctr" label="Profit Center" groupName="Group1" visibleInFilterBar="true">
+										<fb:control>
+											<Input id="inputProfitCenter" showValueHelp="true" valueHelpRequest=".onProfitCenterDialog" placeholder="Select Profit Center"
+												showClearIcon="true" required="true" liveChange=".onProfitCenterClear"/>
+										</fb:control>
+									</fb:FilterGroupItem>
+									<fb:FilterGroupItem name="pa_gjahr" label="Fiscal Year" groupName="Group1" visibleInFilterBar="true">
+										<fb:control>
+											<DatePicker id="yearPicker" displayFormat="yyyy" valueFormat="yyyy" change="onYearChange" placeholder="Select Year"
+												class="round sapUiSmallMarginBottom"/>
+										</fb:control>
+									</fb:FilterGroupItem>
+									<fb:FilterGroupItem name="pa_period_from" label="From Period" groupName="Group1" visibleInFilterBar="true">
+										<fb:control>
+											<Input id="inputFromPeriod" showValueHelp="true" valueHelpRequest="handleValueDialogFromPeriod" placeholder="Select From Period"
+												showClearIcon="true" required="true"/>
+										</fb:control>
+									</fb:FilterGroupItem>
+									<fb:FilterGroupItem name="inputToPeriod" label="To Period" groupName="Group1" visibleInFilterBar="true">
+										<fb:control>
+											<Input id="inputToPeriod" showValueHelp="true" valueHelpRequest="handleValueDialogToPeriod" placeholder="Select To Period"
+												showClearIcon="true" required="true"/>
+										</fb:control>
+									</fb:FilterGroupItem>
+									<!--<fb:FilterGroupItem name="inputRadio" label="Select Option" groupName="Group1" visibleInFilterBar="true">-->
+									<!--	<fb:control>-->
+									<!--		<FlexBox direction="Row" alignItems="Center" justifyContent="Start" width="20rem">-->
+									<!--			<RadioButtonGroup id="radioGroup" selectedIndex="{/selectedRadioIndex}" select=".onRadioSelect">-->
+									<!--				<buttons>-->
+									<!--					<RadioButton text="Payment RM"/>-->
+									<!--					<RadioButton text="Payment All"/>-->
+									<!--				</buttons>-->
+									<!--			</RadioButtonGroup>-->
+									<!--		</FlexBox>-->
+									<!--	</fb:control>-->
+									<!--</fb:FilterGroupItem>-->
+								</fb:filterGroupItems>
+							</fb:FilterBar>
+						</f:content>
+					</f:DynamicPageHeader>
+				</f:header>
+				<f:content>
+					<!--<VBox visible="{globalData>/isPaymentRMVisible}">-->
+					<!--	<core:Fragment id="tableFragment1" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRM" type="XML"/>-->
+					<!--</VBox>-->
+					<!--<VBox visible="{globalData>/isPaymentRMDetailsVisible}">-->
+					<!--	<core:Fragment id="tableFragment2" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRMDetails" type="XML"/>-->
+					<!--</VBox>-->
+					<VBox>
+						<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="Start" alignItems="Center" visible="true">
+							<FlexBox>
+								<RadioButtonGroup id="list" columns="5" select="onRadioSelect">
+									<RadioButton id="payRMList" text="Payment RM"/>
+									<RadioButton id="payAllList" text="Payment All"/>
+								</RadioButtonGroup>
 							</FlexBox>
-							<VBox>
-								<VBox visible="{globalData>/isPaymentRMVisible}">
-									<core:Fragment id="tableFragment1" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRM" type="XML"/>
-								</VBox>
-								<VBox visible="{globalData>/isPaymentRMDetailsVisible}">
-									<core:Fragment id="tableFragment2" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRMDetails" type="XML"/>
-								</VBox>
+						</FlexBox>
+						<VBox>
+							<VBox visible="{globalData>/isPaymentRMVisible}">
+								<core:Fragment id="tableFragment1" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRM" type="XML"/>
 							</VBox>
-							<VBox>
-								<VBox visible="{globalData>/isPaymentAllVisible}">
-									<core:Fragment id="tableFragment3" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAll" type="XML"/>
-								</VBox>
-								<VBox visible="{globalData>/isPaymentAllDetailsVisible}">
-									<core:Fragment id="tableFragment4" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAllDetails" type="XML"/>
-								</VBox>
+							<VBox visible="{globalData>/isPaymentRMDetailsVisible}">
+								<core:Fragment id="tableFragment2" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentRMDetails" type="XML"/>
 							</VBox>
 						</VBox>
-					</f:content>
-				</f:DynamicPage>
+						<VBox>
+							<VBox visible="{globalData>/isPaymentAllVisible}">
+								<core:Fragment id="tableFragment3" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAll" type="XML"/>
+							</VBox>
+							<VBox visible="{globalData>/isPaymentAllDetailsVisible}">
+								<core:Fragment id="tableFragment4" fragmentName="FI_PaymentRM_All_App.Fragment.PaymentAllDetails" type="XML"/>
+							</VBox>
+						</VBox>
+					</VBox>
+				</f:content>
+			</f:DynamicPage>
 			<!--</VBox>-->
 		</pages>
 	</App>

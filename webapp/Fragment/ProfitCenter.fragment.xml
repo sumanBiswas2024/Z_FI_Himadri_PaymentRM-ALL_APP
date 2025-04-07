@@ -7,7 +7,7 @@
 				<CheckBox id="selectAllCheckBox" text="Select All" select=".onSelectAllChange"/>
 			</Toolbar>
 			<List id="idProfitCenterList" mode="MultiSelect" items="{profitCenterData>/}">
-				<StandardListItem title="{profitCenterData>prctr}" iconDensityAware="false"
+				<StandardListItem title="{profitCenterData>prctr}" description="{profitCenterData>ltext}" iconDensityAware="false"
 					iconInset="false"/>
 			</List>
 		</content>

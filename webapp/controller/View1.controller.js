@@ -11,9 +11,16 @@ sap.ui.define([
 
 	return Controller.extend("FI_PaymentRM_All_App.controller.View1", {
 
-		onInit: function() {
-			// this.getcompanyCodeParametersData();
-			this.getProfitCenterData();
+			onInit: function() {
+				// this.getcompanyCodeParametersData();
+				var sLogoPath = jQuery.sap.getModulePath("FI_PaymentRM_All_App", "/image/Himadari1_LOGO_PNG.png");
+				// var oLogoModel = this.getOwnerComponent().getModel("logoModel");
+				var oLogoModel = new sap.ui.model.json.JSONModel({
+					logoSrc: sLogoPath
+				});
+				this.getView().setModel(oLogoModel, "logoModel");
+
+				this.getProfitCenterData();
 			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
 			var that = this;
 
@@ -76,6 +83,17 @@ sap.ui.define([
 			// 		console.error("Error loading fragment:", error);
 			// 	});
 			// }
+			var aColorPalette = [
+				"#FF5733", // red-orange
+				"#1F77B4", // blue
+				"#9B59B6", // purple
+				"#E74C3C", // bright red
+				"#A569BD", // violet
+				"#F39C12", // orange
+				"#7D3C98", // dark purple
+				"#5DADE2", // sky blue
+				"#CA6F1E" // dark orange
+			];
 			var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
 
 			if (oVizFrame) {
@@ -83,6 +101,17 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment RM Summary Overview"
+					},
+					plotArea: {
+						colorPalette: aColorPalette,
+						drawingEffect: "glossy"
+					},
+					label: {
+						angle: 0, // Ensures text is not angled
+						visible: true,
+						style: {
+							fontSize: "9px"
+						}
 					}
 				});
 			} else {
@@ -95,6 +124,17 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment RM Details Overview"
+					},
+					plotArea: {
+						colorPalette: aColorPalette,
+						drawingEffect: "glossy"
+					},
+					label: {
+						angle: 0, // Ensures text is not angled
+						visible: true,
+						style: {
+							fontSize: "9px"
+						}
 					}
 
 				});
@@ -108,6 +148,17 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment All Summary Overview"
+					},
+					plotArea: {
+						colorPalette: aColorPalette,
+						drawingEffect: "glossy"
+					},
+					label: {
+						angle: 0, // Ensures text is not angled
+						visible: true,
+						style: {
+							fontSize: "9px"
+						}
 					}
 
 				});
@@ -121,6 +172,17 @@ sap.ui.define([
 					title: {
 						visible: true,
 						text: "Payment All Details Overview"
+					},
+					plotArea: {
+						colorPalette: aColorPalette,
+						drawingEffect: "glossy"
+					},
+					label: {
+						angle: 0, // Ensures text is not angled
+						visible: true,
+						style: {
+							fontSize: "9px"
+						}
 					}
 
 				});
@@ -222,6 +284,7 @@ sap.ui.define([
 			var oRowData = oContext.getObject();
 
 			var sProfitCenter = oRowData.PRCTR;
+			var sProfitCenterName = oRowData.LTEXT;
 
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
@@ -238,7 +301,7 @@ sap.ui.define([
 			if (oGlobalModel) {
 				oGlobalModel.setProperty("/isPaymentRMVisible", false);
 				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", true);
-				oGlobalModel.setProperty("/titleProfitCenter", sProfitCenter);
+				oGlobalModel.setProperty("/titleProfitCenter", sProfitCenter + " (" + sProfitCenterName + ")");
 			}
 
 			// Define filters
@@ -249,9 +312,14 @@ sap.ui.define([
 				and: true // AND condition
 			});
 
-			// var oTable = this.byId("idTable");
+			// // var oTable = this.byId("idTable");
+			// // var oTable=sap.ui.core.Fragment.byId("tableFragment1", "idTable");
+			// var oTable = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idTable");
 			// var oRow = oButton.getParent();
 			// var iIndex = oTable.indexOfItem(oRow);
+
+			// // var iIndex = oTable.indexOfItem(oRow);
+
 			// // Highlight the clicked row
 			// this._highlightRow(iIndex);
 
@@ -289,6 +357,7 @@ sap.ui.define([
 			var oRowData = oContext.getObject();
 
 			var sProfitCenter = oRowData.prctr;
+			var sProfitCenterName = oRowData.ltext;
 
 			var that = this;
 			var oModel = this.getOwnerComponent().getModel("ZN_VEND_PAY_RM_SUM_SRV_Model");
@@ -307,7 +376,7 @@ sap.ui.define([
 				oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
 				oGlobalModel.setProperty("/isPaymentAllVisible", false);
 				oGlobalModel.setProperty("/isPaymentAllDetailsVisible", true);
-				oGlobalModel.setProperty("/titleProfitCenter2", sProfitCenter);
+				oGlobalModel.setProperty("/titleProfitCenter2", sProfitCenter + " (" + sProfitCenterName + ")");
 			}
 
 			// Define filters
@@ -432,13 +501,17 @@ sap.ui.define([
 						var oGlobalModel = that.getOwnerComponent().getModel("globalData");
 
 						if (oGlobalModel) {
-							oGlobalModel.setProperty("/isPaymentRMVisible", false);
-							oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
-							oGlobalModel.setProperty("/RM", "X");
-							oGlobalModel.setProperty("/RMDetails", "");
+							// oGlobalModel.setProperty("/isPaymentRMVisible", false);
+							// oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+							// oGlobalModel.setProperty("/isPaymentAllVisible", false);
+							// oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
+							// oGlobalModel.setProperty("/RM", "X");
+							// oGlobalModel.setProperty("/RMDetails", "");
+							// oGlobalModel.setProperty("/All", "");
+							// oGlobalModel.setProperty("/AllDetails", "");
 						}
 						sap.ui.core.BusyIndicator.hide();
-						sap.m.MessageBox.information('There are no data available!');
+						sap.m.MessageBox.information('There are no data available in Payment RM!');
 						// that._columnVisible();
 					} else {
 						// hide the busy indicator
@@ -476,14 +549,18 @@ sap.ui.define([
 						// hide the busy indicator
 						var oGlobalModel = that.getOwnerComponent().getModel("globalData");
 
-						// if (oGlobalModel) {
-						// 	oGlobalModel.setProperty("/isPaymentRMVisible", false);
-						// 	oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
-						// 	oGlobalModel.setProperty("/RM", "X");
-						// 	oGlobalModel.setProperty("/RMDetails", "");
-						// }
+						if (oGlobalModel) {
+							// oGlobalModel.setProperty("/isPaymentRMVisible", false);
+							// oGlobalModel.setProperty("/isPaymentRMDetailsVisible", false);
+							// oGlobalModel.setProperty("/isPaymentAllVisible", false);
+							// oGlobalModel.setProperty("/isPaymentAllDetailsVisible", false);
+							// oGlobalModel.setProperty("/RM", "");
+							// oGlobalModel.setProperty("/RMDetails", "");
+							// oGlobalModel.setProperty("/All", "X");
+							// oGlobalModel.setProperty("/AllDetails", "");
+						}
 						sap.ui.core.BusyIndicator.hide();
-						sap.m.MessageBox.information('There are no data available!');
+						sap.m.MessageBox.information('There are no data available in Payment All!');
 						// that._columnVisible();
 					} else {
 						// hide the busy indicator
@@ -558,22 +635,25 @@ sap.ui.define([
 
 			// Extract selected Functional Locations
 			aSelectedItems.forEach(function(oItem) {
-				aSelectedValues.push(oItem.getTitle()); // FunctionalLocation Name
-				// aSelectedID.push(oItem.getDescription()); // FunctionalLocation ID
+				aSelectedValues.push(oItem.getTitle());
+				aSelectedID.push(oItem.getDescription());
 			});
 
 			// Show selected values in Input field
-			var sValue = aSelectedValues.join(", ");
-			this.byId("inputProfitCenter").setValue(sValue);
+			// var sValue = aSelectedValues.join(", ");
+			// this.byId("inputProfitCenter").setValue(sValue);
 
-			var sProfitCenterValues = this.byId("inputProfitCenter").getValue();
+			var sProfDesc = aSelectedID.join(", ");
+			this.byId("inputProfitCenter").setValue(sProfDesc);
 
-			var aProfitCenterArray = sProfitCenterValues.split(", ");
+			// var sProfitCenterValues = this.byId("inputProfitCenter").getValue();
+
+			// var aProfitCenterArray = sProfitCenterValues.split(", ");
 
 			var oGlobalDataModel = this.getOwnerComponent().getModel("globalData");
 			if (oGlobalDataModel) {
 				oGlobalDataModel.setProperty("/selectedProfitCenter", aSelectedID);
-				oGlobalDataModel.setProperty("/selectedProfitCenterArray", aProfitCenterArray);
+				oGlobalDataModel.setProperty("/selectedProfitCenterArray", aSelectedValues);
 			}
 
 			var oSearchField = this.byId("idProfitCenterSearchField"); // Remove Search Field
@@ -875,8 +955,8 @@ sap.ui.define([
 					oVizFrame2.setVizType(selectedKey);
 					oVizFrame2.setVizProperties({
 						title: {
-							visible: true,
-							text: "Payment RM Details Overview"
+							visible: true
+								// text: oGlobalModelData.titleProfitCenter
 						}
 
 					});
@@ -933,8 +1013,8 @@ sap.ui.define([
 					oVizFrame4.setVizType(selectedKey);
 					oVizFrame4.setVizProperties({
 						title: {
-							visible: true,
-							text: "Payment All Details Overview"
+							visible: true
+								// text: oGlobalModelData.titleProfitCenter2
 						}
 					});
 				} else {
@@ -943,11 +1023,17 @@ sap.ui.define([
 			}
 		},
 		_highlightRow: function(iIndex) {
-			var oSplitter = this.byId("splitter");
-			if (oSplitter.getVisible() === true) {
-				var oTable = this.byId("dynamicTable");
-			} else {
-				var oTable = this.byId("dynamicTable2");
+			// var oSplitter = this.byId("splitter");
+			// if (oSplitter.getVisible() === true) {
+			// 	var oTable = this.byId("dynamicTable");
+			// } else {
+			// 	var oTable = this.byId("dynamicTable2");
+			// } 
+			var oGlobalModelData = this.getOwnerComponent().getModel("globalData").getData();
+			if (oGlobalModelData.isPaymentRMDetailsVisible === true) {
+				var oTable = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idTable");
+			} else if (oGlobalModelData.isPaymentAllDetailsVisible === true) {
+				var oTable = sap.ui.core.Fragment.byId(this.createId("tableFragment3"), "idTable3");
 			}
 			oTable.getItems().forEach(function(item, index) {
 				if (index === iIndex) {

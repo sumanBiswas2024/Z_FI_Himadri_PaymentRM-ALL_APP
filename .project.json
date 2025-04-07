@@ -40,12 +40,12 @@
     "blockPushLevel": "Error"
   },
   "build": {
-    "buildRequired": true,
+    "buildRequired": false,
     "sourceFolder": "webapp",
     "targetFolder": "dist",
     "excludedFolders": [],
     "excludedFiles": [],
-    "lastBuildDateTime": "Fri, 04 Apr 2025 11:23:04 GMT"
+    "lastBuildDateTime": "Mon, 07 Apr 2025 11:24:40 GMT"
   },
   "mockpreview": {
     "mockUri": "/sap/opu/odata/sap/ZN_VEND_PAY_RM_SUM_SRV",

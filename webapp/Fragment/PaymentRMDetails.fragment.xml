@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:table="sap.ui.table" xmlns:suite="sap.suite.ui.commons"
 	xmlns:viz="sap.viz.ui5.controls" xmlns:vizData="sap.viz.ui5.data" xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds">
-	<suite:ChartContainer id="chartContainer2" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false" showLegendButton="true" showZoom="true"
-		title="Payment RM Details Profit Center - {globalData>/titleProfitCenter}">
+	<suite:ChartContainer id="chartContainer2" showFullScreen="true" showPersonalization="false" autoAdjustHeight="false"
+		showLegendButton="true" showZoom="true" title="Payment RM Details Profit Center - {globalData>/titleProfitCenter}" level="H1">
 		<suite:content>
 			<suite:ChartContainerContent icon="sap-icon://bar-chart" title="Chart View">
 				<suite:content>
@@ -9,8 +9,7 @@
 						<!-- Toolbar with ComboBox -->
 						<Toolbar>
 							<content>
-								<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="End" alignItems="Center"
-									visible="true">
+								<FlexBox width="90%" direction="Row" height="auto" id="DepartmentView" wrap="Wrap" justifyContent="End" alignItems="Center" visible="true">
 									<RadioButtonGroup id="onSelectChartType" columns="5" select="onSelectChartType">
 										<RadioButton id="columnChart" text="Column Chart"/>
 										<RadioButton id="pieChart" text="Pie Chart"/>
@@ -21,10 +20,7 @@
 							</content>
 						</Toolbar>
 						<viz:VizFrame id="idVizFrame2" vizType="column" height="400px" width="100%"
-							vizProperties="{ plotArea: { drawingEffect: 'glossy' }, 
-                                       dataLabel: { visible: true, showTotal: true }, 
-                                       legend: { title:{visible:true} }, 
-                                       interaction: { selectability: { mode: 'none' }}}"
+							vizProperties="{ plotArea: { drawingEffect: 'glossy' }, dataLabel: { visible: true, showTotal: true }, legend: { title:{visible:true} }, interaction: { selectability: { mode: 'none' }}}"
 							uiConfig="{ 'applicationSet': 'fiori' }">
 							<viz:dataset>
 								<vizData:FlattenedDataset data="{listDataDetails>/}">
@@ -39,6 +35,7 @@
 							<viz:feeds>
 								<vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Amount"/>
 								<vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Name"/>
+								<vizFeeds:FeedItem uid="color" type="Dimension" values="Name"/>
 							</viz:feeds>
 						</viz:VizFrame>
 					</VBox>
@@ -72,9 +69,12 @@
 						<!--</table:Table>-->
 						<Table id="idTable2" items="{listDataDetails>/}" class="pdfTable boldText">
 							<columns>
-								<Column>
-									<Text text="Profit Center"/>
-								</Column>
+								<!--<Column>-->
+								<!--	<Text text="Profit Center Id"/>-->
+								<!--</Column>-->
+								<!--<Column>-->
+								<!--	<Text text="Profit Center Name"/>-->
+								<!--</Column>-->
 								<Column>
 									<Text text="Vendor Name"/>
 								</Column>
@@ -85,7 +85,8 @@
 							<items>
 								<ColumnListItem>
 									<cells>
-										<Text text="{listDataDetails>prctr}"/>
+										<!--<Text text="{listDataDetails>prctr}"/>-->
+										<!--<Text text="{listDataDetails>ltext}"/>-->
 										<Text text="{listDataDetails>name1}"/>
 										<Text text="{listDataDetails>hsl}"/>
 									</cells>

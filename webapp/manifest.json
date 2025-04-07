@@ -121,6 +121,9 @@
 			},
 			"allListDataDetails": {
 				"type": "sap.ui.model.json.JSONModel"
+			},
+			"logoModel": {
+				"type": "sap.ui.model.json.JSONModel"
 			}
 		},
 		"resources": {
