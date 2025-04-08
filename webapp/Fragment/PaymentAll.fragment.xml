@@ -72,7 +72,7 @@
 					<!--		</table:Column>-->
 					<!--	</table:columns>-->
 					<!--</table:Table>-->
-					<Table id="idTable3" mode="None" items="{allListData>/}" class="pdfTable boldText">
+					<Table id="idTable3" mode="None" items="{allListData>/}" class="pdfTable boldText whiteHeaderText">
 						<columns>
 							<!--<Column>-->
 							<!--		<Text text="Profit Center Id"/>-->

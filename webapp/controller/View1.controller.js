@@ -13,12 +13,12 @@ sap.ui.define([
 
 		onInit: function() {
 			// this.getcompanyCodeParametersData();
-			var sLogoPath = jQuery.sap.getModulePath("FI_PaymentRM_All_App", "/image/Himadari1_LOGO_PNG.png");
-			// var oLogoModel = this.getOwnerComponent().getModel("logoModel");
-			var oLogoModel = new sap.ui.model.json.JSONModel({
-				logoSrc: sLogoPath
-			});
-			this.getView().setModel(oLogoModel, "logoModel");
+			// var sLogoPath = jQuery.sap.getModulePath("FI_PaymentRM_All_App", "/image/Himadari1_LOGO_PNG.png");
+			// // var oLogoModel = this.getOwnerComponent().getModel("logoModel");
+			// var oLogoModel = new sap.ui.model.json.JSONModel({
+			// 	logoSrc: sLogoPath
+			// });
+			// this.getView().setModel(oLogoModel, "logoModel");
 
 			this.getProfitCenterData();
 			var oGlobalModel = this.getOwnerComponent().getModel("globalData");
@@ -84,21 +84,15 @@ sap.ui.define([
 			// 	});
 			// }
 			var aColorPalette = [
-				"#FF6F61", // coral red
-				"#AF7AC5", // soft purple
-				"#F7DC6F", // bright yellow
-				"#5DADE2", // sky blue
-				"#85929E", // soft grey-blue
-				"#EC7063", // light red
-				"#884EA0", // royal purple
-				"#F39C12", // golden orange
-				"#2980B9", // rich blue
-				"#E67E22", // orange
-				"#D35400", // pumpkin orange
-				"#C0392B", // crimson
-				"#A569BD", // light violet
-				"#FF5733", // strong red-orange
-				"#B03A2E" // deep brick red
+				"#FF1A1A", // vivid red
+				"#B200FF", // electric purple
+				"#FFD700", // ultra bright gold yellow
+				"#0099FF", // neon blue
+				"#5C7C99", // strong grey-blue
+				"#8A2BE2", // strong royal purple
+				"#FF3333", // bold red
+				"#0066FF", // deep blue
+				"#FFA500" // bright orange
 			];
 			var oVizFrame = sap.ui.core.Fragment.byId(this.createId("tableFragment1"), "idVizFrame");
 

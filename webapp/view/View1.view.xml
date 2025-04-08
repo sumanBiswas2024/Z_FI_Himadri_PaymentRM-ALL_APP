@@ -14,16 +14,12 @@
 				<f:title>
 					<f:DynamicPageTitle visible="true">
 						<f:heading>
-							<!--<HBox justifyContent="End" alignItems="Center" width="100%">-->
-							<!--	<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo" class="sapUiTinyMarginEnd"/>-->
-							<!--<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>-->
-							<!--</HBox>-->
-							<FlexBox direction="Row" justifyContent="End" alignItems="Center" width="100%">
-								<!-- Optional: Title or leave empty -->
-								<Text text=""/>
-								<!-- Logo aligned right -->
-								<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo"/>
-							</FlexBox>
+							<!--<FlexBox justifyContent="End" alignItems="End" width="100%" >-->
+							<!--	<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo"/>-->
+							<!--</FlexBox>-->
+							<!--<VBox class="logoContainer" alignItems="End">-->
+							<!--	<Image src="{logoModel>/logoSrc}" width="120px" height="80px" alt="Logo"/>-->
+							<!--</VBox>-->
 							<!--<svm:SmartVariantManagement id="svm" showExecuteOnSelection="true"/>-->
 						</f:heading>
 						<!--<f:expandedContent>-->

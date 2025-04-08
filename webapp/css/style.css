@@ -26,6 +26,12 @@
     margin: 0;
     padding: 0;
 }
+.logoContainer {
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+    padding-bottom:1rem;
+}
 
 .border-lineRadius {
     overflow: hidden;
@@ -96,7 +102,12 @@
 
 .pdfTable th {
     background-color: #fc4c4c;
-    font-weight: bold;
+    /*font-weight: bold;*/
+    font-weight: 900 !important; /* maximum boldness */
+}
+.whiteHeaderText .sapMColumnHeader .sapMText {
+	color: white !important;
+	font-weight: bold;
 }
 
 .sapMListTblRow {
